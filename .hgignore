@@ -1,0 +1,14 @@
+syntax: regexp
+^local\.properties$
+syntax: regexp
+^reports$
+syntax: regexp
+^ZumiAndroid\.apk$
+syntax: regexp
+^gen$
+syntax: regexp
+^bin$
+syntax: regexp
+^\.settings$
+syntax: regexp
+^javadoc$
