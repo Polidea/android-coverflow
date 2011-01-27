@@ -21,13 +21,12 @@
 
 package pl.polidea.coverflow;
 
-import android.R;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -43,6 +42,7 @@ import android.view.animation.Transformation;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Scroller;
+import android.widget.SpinnerAdapter;
 
 /**
  * A view that shows items in a center-locked, horizontally scrolling list. In a
@@ -178,14 +178,59 @@ public class CoverFlow extends CoverAbsSpinner implements
     private boolean mIsFirstScroll;
 
     /**
-     * Graphics Camera used for transforming the matrix of ImageViews
-     */
-    private final Camera mCamera = new Camera();
-
-    /**
      * The maximum angle the Child ImageView will be rotated by
      */
     private final int mMaxRotationAngle = 60;
+
+    private float imageHeight;
+
+    private float imageWidth;
+
+    private float reflectionGap;
+
+    private boolean withReflection;
+
+    private float imageReflectionRatio;
+
+    public float getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(final float imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public float getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(final float imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public float getReflectionGap() {
+        return reflectionGap;
+    }
+
+    public void setReflectionGap(final float reflectionGap) {
+        this.reflectionGap = reflectionGap;
+    }
+
+    public boolean isWithReflection() {
+        return withReflection;
+    }
+
+    public void setWithReflection(final boolean withReflection) {
+        this.withReflection = withReflection;
+    }
+
+    public void setImageReflectionRatio(final float imageReflectionRatio) {
+        this.imageReflectionRatio = imageReflectionRatio;
+    }
+
+    public float getImageReflectionRatio() {
+        return imageReflectionRatio;
+    }
 
     /**
      * The maximum zoom on the centre Child
@@ -197,48 +242,64 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     public CoverFlow(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.galleryStyle);
+        this(context, attrs, android.R.attr.galleryStyle);
+    }
+
+    private void parseAttributes(final Context context, final AttributeSet attrs) {
+        final TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.CoverFlow);
+        try {
+            imageWidth = a.getDimension(R.styleable.CoverFlow_imageWidth, 480);
+            imageHeight = a
+                    .getDimension(R.styleable.CoverFlow_imageHeight, 320);
+            withReflection = a.getBoolean(R.styleable.CoverFlow_withReflection,
+                    false);
+            imageReflectionRatio = a.getFloat(
+                    R.styleable.CoverFlow_imageReflectionRatio, 0.2f);
+            reflectionGap = a.getDimension(R.styleable.CoverFlow_reflectionGap,
+                    4);
+            setSpacing(-15);
+        } finally {
+            a.recycle();
+        }
+    }
+
+    /**
+     * Sets the
+     * 
+     * @param adapter
+     */
+    @Override
+    public void setAdapter(final SpinnerAdapter adapter) {
+        if (!(adapter instanceof AbstractCoverFlowImageAdapter)) {
+            throw new IllegalArgumentException(
+                    "The adapter should derive from "
+                            + AbstractCoverFlowImageAdapter.class.getName());
+        }
+        final AbstractCoverFlowImageAdapter coverAdapter = (AbstractCoverFlowImageAdapter) adapter;
+        coverAdapter.setWidth(imageWidth);
+        coverAdapter.setHeight(imageHeight);
+        if (withReflection) {
+            final ReflectingImageAdapter reflectAdapter = new ReflectingImageAdapter(
+                    getContext(), coverAdapter);
+            reflectAdapter.setReflectionGap(reflectionGap);
+            reflectAdapter.setWidthRatio(imageReflectionRatio);
+            reflectAdapter.setWidth(imageWidth);
+            reflectAdapter.setHeight(imageHeight * (1 + imageReflectionRatio));
+
+            super.setAdapter(reflectAdapter);
+        } else {
+            super.setAdapter(adapter);
+        }
+        requestLayout();
     }
 
     public CoverFlow(final Context context, final AttributeSet attrs,
             final int defStyle) {
         super(context, attrs, defStyle);
-
+        parseAttributes(context, attrs);
         mGestureDetector = new GestureDetector(this);
         mGestureDetector.setIsLongpressEnabled(true);
-
-        // TypedArray a = context.obtainStyledAttributes(
-        // attrs, com.android.internal.R.styleable.Gallery, defStyle, 0);
-        //
-        // int index =
-        // a.getInt(com.android.internal.R.styleable.Gallery_gravity, -1);
-        // if (index >= 0) {
-        // setGravity(index);
-        // }
-        //
-        // int animationDuration =
-        // a.getInt(com.android.internal.R.styleable.Gallery_animationDuration,
-        // -1);
-        // if (animationDuration > 0) {
-        // setAnimationDuration(animationDuration);
-        // }
-        //
-        // int spacing =
-        // a.getDimensionPixelOffset(com.android.internal.R.styleable.Gallery_spacing,
-        // 0);
-        // setSpacing(spacing);
-        //
-        // float unselectedAlpha = a.getFloat(
-        // com.android.internal.R.styleable.Gallery_unselectedAlpha, 0.5f);
-        // setUnselectedAlpha(unselectedAlpha);
-        //
-        // a.recycle();
-        //
-        // // We draw the selected item last (because otherwise the item to the
-        // // right overlaps it)
-        // mGroupFlags |= FLAG_USE_CHILD_DRAWING_ORDER;
-        //
-        // mGroupFlags |= FLAG_SUPPORT_STATIC_TRANSFORMATIONS;
     }
 
     /**
@@ -896,10 +957,6 @@ public class CoverFlow extends CoverAbsSpinner implements
         // Make sure we set anti-aliasing otherwise we get jaggies
         final BitmapDrawable drawable = (BitmapDrawable) child.getDrawable();
         drawable.setAntiAlias(true);
-
-        final Drawable imageDrawable = child.getDrawable();
-        // imageDrawable.mutate();
-
         transformImageBitmap(child, offset, true, mMaxRotationAngle);
         // Position the view
         setUpChild(child, offset, x, fromLeft);
@@ -1000,9 +1057,7 @@ public class CoverFlow extends CoverAbsSpinner implements
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
-
-        // Give everything to the gesture detector
-        final boolean retValue = mGestureDetector.onTouchEvent(event);
+        mGestureDetector.onTouchEvent(event);
 
         final int action = event.getAction();
         if (action == MotionEvent.ACTION_UP) {

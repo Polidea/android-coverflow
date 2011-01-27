@@ -56,16 +56,17 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     /** Temporary frame to hold a child View's frame rectangle */
     private Rect mTouchFrame;
 
-    public CoverAbsSpinner(Context context) {
+    public CoverAbsSpinner(final Context context) {
         super(context);
         initAbsSpinner();
     }
 
-    public CoverAbsSpinner(Context context, AttributeSet attrs) {
+    public CoverAbsSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CoverAbsSpinner(Context context, AttributeSet attrs, int defStyle) {
+    public CoverAbsSpinner(final Context context, final AttributeSet attrs,
+            final int defStyle) {
         super(context, attrs, defStyle);
         initAbsSpinner();
 
@@ -102,7 +103,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      *            The SpinnerAdapter to use for this Spinner
      */
     @Override
-    public void setAdapter(SpinnerAdapter adapter) {
+    public void setAdapter(final SpinnerAdapter adapter) {
         if (null != mAdapter) {
             mAdapter.unregisterDataSetObserver(mDataSetObserver);
             resetList();
@@ -121,7 +122,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             mDataSetObserver = new AdapterDataSetObserver();
             mAdapter.registerDataSetObserver(mDataSetObserver);
 
-            int position = mItemCount > 0 ? 0 : INVALID_POSITION;
+            final int position = mItemCount > 0 ? 0 : INVALID_POSITION;
 
             setSelectedPositionInt(position);
             setNextSelectedPositionInt(position);
@@ -166,8 +167,9 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      *      plus padding.
      */
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+    protected void onMeasure(final int widthMeasureSpec,
+            final int heightMeasureSpec) {
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize;
         int heightSize;
 
@@ -188,7 +190,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         int preferredWidth = 0;
         boolean needsMeasuring = true;
 
-        int selectedPosition = getSelectedItemPosition();
+        final int selectedPosition = getSelectedItemPosition();
         if (selectedPosition >= 0 && mAdapter != null) {
             // Try looking in the recycler. (Maybe we were measured once
             // already)
@@ -240,11 +242,11 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         mWidthMeasureSpec = widthMeasureSpec;
     }
 
-    int getChildHeight(View child) {
+    int getChildHeight(final View child) {
         return child.getMeasuredHeight();
     }
 
-    int getChildWidth(View child) {
+    int getChildWidth(final View child) {
         return child.getMeasuredWidth();
     }
 
@@ -255,13 +257,13 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     }
 
     void recycleAllViews() {
-        int childCount = getChildCount();
+        final int childCount = getChildCount();
         final CoverAbsSpinner.RecycleBin recycleBin = mRecycler;
 
         // All views go in recycler
         for (int i = 0; i < childCount; i++) {
-            View v = getChildAt(i);
-            int index = mFirstPosition + i;
+            final View v = getChildAt(i);
+            final int index = mFirstPosition + i;
             recycleBin.put(index, v);
         }
     }
@@ -277,15 +279,15 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     /**
      * Jump directly to a specific item in the adapter data.
      */
-    public void setSelection(int position, boolean animate) {
+    public void setSelection(final int position, final boolean animate) {
         // Animate only if requested position is already on screen somewhere
-        boolean shouldAnimate = animate && mFirstPosition <= position
+        final boolean shouldAnimate = animate && mFirstPosition <= position
                 && position <= mFirstPosition + getChildCount() - 1;
         setSelectionInt(position, shouldAnimate);
     }
 
     @Override
-    public void setSelection(int position) {
+    public void setSelection(final int position) {
         setNextSelectedPositionInt(position);
         requestLayout();
         invalidate();
@@ -300,10 +302,10 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      *            Should the transition be animated
      * 
      */
-    void setSelectionInt(int position, boolean animate) {
+    void setSelectionInt(final int position, final boolean animate) {
         if (position != mOldSelectedPosition) {
             mBlockLayoutRequests = true;
-            int delta = position - mSelectedPosition;
+            final int delta = position - mSelectedPosition;
             setNextSelectedPositionInt(position);
             layout(delta, animate);
             mBlockLayoutRequests = false;
@@ -355,7 +357,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      *         {@link #INVALID_POSITION} if the point does not intersect an
      *         item.
      */
-    public int pointToPosition(int x, int y) {
+    public int pointToPosition(final int x, final int y) {
         Rect frame = mTouchFrame;
         if (frame == null) {
             mTouchFrame = new Rect();
@@ -364,7 +366,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
         final int count = getChildCount();
         for (int i = count - 1; i >= 0; i--) {
-            View child = getChildAt(i);
+            final View child = getChildAt(i);
             if (child.getVisibility() == View.VISIBLE) {
                 child.getHitRect(frame);
                 if (frame.contains(x, y)) {
@@ -382,21 +384,21 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         /**
          * Constructor called from {@link AbsSpinner#onSaveInstanceState()}
          */
-        SavedState(Parcelable superState) {
+        SavedState(final Parcelable superState) {
             super(superState);
         }
 
         /**
          * Constructor called from {@link #CREATOR}
          */
-        private SavedState(Parcel in) {
+        private SavedState(final Parcel in) {
             super(in);
             selectedId = in.readLong();
             position = in.readInt();
         }
 
         @Override
-        public void writeToParcel(Parcel out, int flags) {
+        public void writeToParcel(final Parcel out, final int flags) {
             super.writeToParcel(out, flags);
             out.writeLong(selectedId);
             out.writeInt(position);
@@ -411,11 +413,13 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
+            @Override
+            public SavedState createFromParcel(final Parcel in) {
                 return new SavedState(in);
             }
 
-            public SavedState[] newArray(int size) {
+            @Override
+            public SavedState[] newArray(final int size) {
                 return new SavedState[size];
             }
         };
@@ -423,8 +427,8 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
+        final Parcelable superState = super.onSaveInstanceState();
+        final SavedState ss = new SavedState(superState);
         ss.selectedId = getSelectedItemId();
         if (ss.selectedId >= 0) {
             ss.position = getSelectedItemPosition();
@@ -435,8 +439,8 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
+    public void onRestoreInstanceState(final Parcelable state) {
+        final SavedState ss = (SavedState) state;
 
         super.onRestoreInstanceState(ss.getSuperState());
 
@@ -451,15 +455,15 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     }
 
     class RecycleBin {
-        private SparseArray<View> mScrapHeap = new SparseArray<View>();
+        private final SparseArray<View> mScrapHeap = new SparseArray<View>();
 
-        public void put(int position, View v) {
+        public void put(final int position, final View v) {
             mScrapHeap.put(position, v);
         }
 
-        View get(int position) {
+        View get(final int position) {
             // System.out.print("Looking for " + position);
-            View result = mScrapHeap.get(position);
+            final View result = mScrapHeap.get(position);
             if (result != null) {
                 // System.out.println(" HIT");
                 mScrapHeap.delete(position);
@@ -469,7 +473,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             return result;
         }
 
-        View peek(int position) {
+        View peek(final int position) {
             // System.out.print("Looking for " + position);
             return mScrapHeap.get(position);
         }
