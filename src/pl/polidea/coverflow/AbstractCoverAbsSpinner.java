@@ -34,7 +34,7 @@ import android.widget.SpinnerAdapter;
  * to use this class.
  * 
  */
-public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
+public abstract class AbstractCoverAbsSpinner extends AbstractCoverAdapterView<SpinnerAdapter> {
 
     /** The m adapter. */
     private SpinnerAdapter mAdapter;
@@ -295,7 +295,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      * @param context
      *            the context
      */
-    public CoverAbsSpinner(final Context context) {
+    public AbstractCoverAbsSpinner(final Context context) {
         super(context);
         initAbsSpinner();
     }
@@ -308,7 +308,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      * @param attrs
      *            the attrs
      */
-    public CoverAbsSpinner(final Context context, final AttributeSet attrs) {
+    public AbstractCoverAbsSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -322,7 +322,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      * @param defStyle
      *            the def style
      */
-    public CoverAbsSpinner(final Context context, final AttributeSet attrs,
+    public AbstractCoverAbsSpinner(final Context context, final AttributeSet attrs,
             final int defStyle) {
         super(context, attrs, defStyle);
         initAbsSpinner();
@@ -356,7 +356,12 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         setmOldSelectedPosition(INVALID_POSITION);
         setmOldSelectedRowId(INVALID_ROW_ID);
 
-        if (getmAdapter() != null) {
+        if (getmAdapter() == null) {
+            checkFocus();
+            resetList();
+            // Nothing selected
+            checkSelectionChanged();
+        } else {
             setmOldItemCount(getmItemCount());
             setmItemCount(getmAdapter().getCount());
             checkFocus();
@@ -374,11 +379,6 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
                 checkSelectionChanged();
             }
 
-        } else {
-            checkFocus();
-            resetList();
-            // Nothing selected
-            checkSelectionChanged();
         }
 
         requestLayout();
@@ -528,7 +528,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      */
     void recycleAllViews() {
         final int childCount = getChildCount();
-        final CoverAbsSpinner.RecycleBin recycleBin = mRecycler;
+        final AbstractCoverAbsSpinner.RecycleBin recycleBin = mRecycler;
 
         // All views go in recycler
         for (int i = 0; i < childCount; i++) {
@@ -536,19 +536,6 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             final int index = getmFirstPosition() + i;
             recycleBin.put(index, v);
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see pl.polidea.coverflow.CoverAdapterView#handleDataChanged()
-     */
-    @Override
-    void handleDataChanged() {
-        // FIXME -- this is called from both measure and layout.
-        // This is harmless right now, but we don't want to do redundant work if
-        // this gets more complicated
-        super.handleDataChanged();
     }
 
     /**
@@ -692,10 +679,10 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     static class SavedState extends BaseSavedState {
 
         /** The selected id. */
-        private long selectedId;
+        private long selectedId; // NOPMD by potiuk on 1/28/11 2:40 AM
 
         /** The position. */
-        private int position;
+        private int position; // NOPMD by potiuk on 1/28/11 2:40 AM
 
         /**
          * Constructor called from AbsSpinner#onSaveInstanceState().
@@ -761,7 +748,8 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     @Override
     public Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
-        final SavedState ss = new SavedState(superState);
+        final SavedState ss = new SavedState(superState); // NOPMD by potiuk on
+                                                          // 1/28/11 2:41 AM
         ss.selectedId = getSelectedItemId();
         if (ss.selectedId >= 0) {
             ss.position = getSelectedItemPosition();
@@ -877,13 +865,9 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
          * @return the view
          */
         View get(final int position) {
-            // System.out.print("Looking for " + position);
             final View result = mScrapHeap.get(position);
             if (result != null) {
-                // System.out.println(" HIT");
                 mScrapHeap.delete(position);
-            } else {
-                // System.out.println(" MISS");
             }
             return result;
         }

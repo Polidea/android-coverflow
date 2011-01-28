@@ -1,6 +1,6 @@
 package pl.polidea.coverflow.testingactivity;
 
-import pl.polidea.coverflow.CoverAdapterView;
+import pl.polidea.coverflow.AbstractCoverAdapterView;
 import pl.polidea.coverflow.CoverFlow;
 import pl.polidea.coverflow.R;
 import pl.polidea.coverflow.ReflectingImageAdapter;
@@ -8,7 +8,6 @@ import pl.polidea.coverflow.ResourceImageAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
@@ -30,20 +29,16 @@ public class CoverFlowTestingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
-        final WindowManager window = (WindowManager) this
-                .getSystemService(WINDOW_SERVICE);
-        final int width = window.getDefaultDisplay().getWidth() / 3;
-        final int height = window.getDefaultDisplay().getHeight() / 3;
         // note resources below are taken using getIdentifier to allow importing
         // this library as library.
         final CoverFlow mCoverFlow = (CoverFlow) findViewById(this
                 .getResources().getIdentifier("coverflow", "id",
                         "pl.polidea.coverflow"));
-        setupCoverFlow(mCoverFlow, width, height, false);
+        setupCoverFlow(mCoverFlow, false);
         final CoverFlow reflectingCoverFlow = (CoverFlow) findViewById(this
                 .getResources().getIdentifier("coverflowReflect", "id",
                         "pl.polidea.coverflow"));
-        setupCoverFlow(reflectingCoverFlow, width, height, true);
+        setupCoverFlow(reflectingCoverFlow, true);
     }
 
     /**
@@ -51,15 +46,11 @@ public class CoverFlowTestingActivity extends Activity {
      * 
      * @param mCoverFlow
      *            the m cover flow
-     * @param width
-     *            the width
-     * @param height
-     *            the height
      * @param reflect
      *            the reflect
      */
-    private void setupCoverFlow(final CoverFlow mCoverFlow, final int width,
-            final int height, final boolean reflect) {
+    private void setupCoverFlow(final CoverFlow mCoverFlow,
+            final boolean reflect) {
         SpinnerAdapter coverImageAdapter = null;
         if (reflect) {
             coverImageAdapter = new ReflectingImageAdapter(this,
@@ -80,9 +71,10 @@ public class CoverFlowTestingActivity extends Activity {
      */
     private void setupListeners(final CoverFlow mCoverFlow) {
         mCoverFlow
-                .setOnItemClickListener(new CoverAdapterView.OnItemClickListener() {
+                .setOnItemClickListener(new AbstractCoverAdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(final CoverAdapterView< ? > parent,
+                    public void onItemClick(
+                            final AbstractCoverAdapterView< ? > parent,
                             final View view, final int position, final long id) {
                         final CharSequence text = "Item clicked! : " + id;
                         final int duration = Toast.LENGTH_SHORT;
@@ -94,11 +86,11 @@ public class CoverFlowTestingActivity extends Activity {
 
                 });
         mCoverFlow
-                .setOnItemSelectedListener(new CoverAdapterView.OnItemSelectedListener() {
+                .setOnItemSelectedListener(new AbstractCoverAdapterView.OnItemSelectedListener() {
 
                     @Override
                     public void onItemSelected(
-                            final CoverAdapterView< ? > parent,
+                            final AbstractCoverAdapterView< ? > parent,
                             final View view, final int position, final long id) {
                         final CharSequence text = "Item selected! : " + id;
                         final int duration = Toast.LENGTH_SHORT;
@@ -110,7 +102,7 @@ public class CoverFlowTestingActivity extends Activity {
 
                     @Override
                     public void onNothingSelected(
-                            final CoverAdapterView< ? > parent) {
+                            final AbstractCoverAdapterView< ? > parent) {
                         final CharSequence text = "Nothing clicked!";
                         final int duration = Toast.LENGTH_SHORT;
                         clearToast();

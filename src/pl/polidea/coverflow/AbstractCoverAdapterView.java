@@ -40,7 +40,8 @@ import android.widget.Adapter;
  * @param <T>
  *            the generic type
  */
-public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
+public abstract class AbstractCoverAdapterView<T extends Adapter> extends
+        ViewGroup {
 
     public int getmFirstPosition() {
         return mFirstPosition;
@@ -414,7 +415,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @param context
      *            the context
      */
-    public CoverAdapterView(final Context context) {
+    public AbstractCoverAdapterView(final Context context) {
         super(context);
     }
 
@@ -426,7 +427,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @param attrs
      *            the attrs
      */
-    public CoverAdapterView(final Context context, final AttributeSet attrs) {
+    public AbstractCoverAdapterView(final Context context,
+            final AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -440,8 +442,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @param defStyle
      *            the def style
      */
-    public CoverAdapterView(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+    public AbstractCoverAdapterView(final Context context,
+            final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -470,8 +472,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
          * @param id
          *            The row id of the item that was clicked.
          */
-        void onItemClick(CoverAdapterView< ? > parent, View view, int position,
-                long id);
+        void onItemClick(AbstractCoverAdapterView< ? > parent, View view,
+                int position, long id);
 
     }
 
@@ -596,7 +598,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
          * @param id
          *            The row id of the item that is selected
          */
-        void onItemSelected(CoverAdapterView< ? > parent, View view,
+        void onItemSelected(AbstractCoverAdapterView< ? > parent, View view,
                 int position, long id);
 
         /**
@@ -607,7 +609,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
          * @param parent
          *            The AdapterView that now contains no selected item.
          */
-        void onNothingSelected(CoverAdapterView< ? > parent);
+        void onNothingSelected(AbstractCoverAdapterView< ? > parent);
     }
 
     /**
@@ -657,15 +659,15 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             this.setId(id);
         }
 
-        public void setTargetView(final View targetView) {
+        public final void setTargetView(final View targetView) {
             this.targetView = targetView;
         }
 
-        public View getTargetView() {
+        public final View getTargetView() {
             return targetView;
         }
 
-        public void setPosition(final int position) {
+        public final void setPosition(final int position) {
             this.position = position;
         }
 
@@ -673,7 +675,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             return position;
         }
 
-        public void setId(final long id) {
+        public final void setId(final long id) {
             this.id = id;
         }
 
@@ -979,7 +981,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * 
      * @return True if the view is in filter mode, false otherwise.
      */
-    boolean isInFilterMode() {
+    boolean isInFilterMode() { // NOPMD by potiuk on 1/28/11 2:43 AM
         return false;
     }
 
@@ -1054,13 +1056,13 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         }
 
         if (empty) {
-            if (getmEmptyView() != null) {
-                getmEmptyView().setVisibility(View.VISIBLE);
-                setVisibility(View.GONE);
-            } else {
+            if (getmEmptyView() == null) {
                 // If the caller just removed our empty view, make sure the list
                 // view is visible
                 setVisibility(View.VISIBLE);
+            } else {
+                getmEmptyView().setVisibility(View.VISIBLE);
+                setVisibility(View.GONE);
             }
 
             // We are now GONE, so pending layouts will not be dispatched.
@@ -1112,7 +1114,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     @Override
     public void setOnClickListener(final OnClickListener l) {
-        throw new RuntimeException(
+        throw new IllegalStateException(
                 "Don't call setOnClickListener for an AdapterView. "
                         + "You probably want setOnItemClickListener instead");
     }
@@ -1164,10 +1166,11 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             // Detect the case where a cursor that was previously invalidated
             // has
             // been repopulated with new data.
-            if (CoverAdapterView.this.getAdapter().hasStableIds()
+            if (AbstractCoverAdapterView.this.getAdapter().hasStableIds()
                     && mInstanceState != null && getmOldItemCount() == 0
                     && getmItemCount() > 0) {
-                CoverAdapterView.this.onRestoreInstanceState(mInstanceState);
+                AbstractCoverAdapterView.this
+                        .onRestoreInstanceState(mInstanceState);
                 mInstanceState = null;
             } else {
                 rememberSyncState();
@@ -1185,11 +1188,12 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         public void onInvalidated() {
             setmDataChanged(true);
 
-            if (CoverAdapterView.this.getAdapter().hasStableIds()) {
+            if (AbstractCoverAdapterView.this.getAdapter().hasStableIds()) {
                 // Remember the current state for the case where our hosting
                 // activity is being
                 // stopped and later restarted
-                mInstanceState = CoverAdapterView.this.onSaveInstanceState();
+                mInstanceState = AbstractCoverAdapterView.this
+                        .onSaveInstanceState();
             }
 
             // Data is invalid so we should reset our state

@@ -4,13 +4,13 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
-// TODO: Auto-generated Javadoc
 /**
  * This class is an adapter that provides images from a fixed set of resource
  * ids. Bitmaps and ImageViews are kept as weak references so that they can be
@@ -36,7 +36,7 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
             R.drawable.image05 };
 
     /** The bitmap map. */
-    private final HashMap<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
+    private final Map<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
 
     /**
      * Creates the adapter with default set of resource images.

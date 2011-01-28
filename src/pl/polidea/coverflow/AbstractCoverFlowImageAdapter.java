@@ -2,6 +2,7 @@ package pl.polidea.coverflow;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,10 +33,10 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
     private float height = 0;
 
     /** The bitmap map. */
-    private final HashMap<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
+    private final Map<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
 
     /** The image view map. */
-    private final HashMap<Integer, WeakReference<ImageView>> imageViewMap = new HashMap<Integer, WeakReference<ImageView>>();
+    private final Map<Integer, WeakReference<ImageView>> imageViewMap = new HashMap<Integer, WeakReference<ImageView>>();
 
     /**
      * Craetes image adapter.
@@ -44,6 +45,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      *            context of the view
      */
     public AbstractCoverFlowImageAdapter(final Context context) {
+        super();
         this.context = context;
     }
 
@@ -53,7 +55,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      * @param width
      *            picture height
      */
-    public void setWidth(final float width) {
+    public synchronized void setWidth(final float width) {
         this.width = width;
     }
 
@@ -63,7 +65,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      * @param height
      *            picture height
      */
-    public void setHeight(final float height) {
+    public synchronized void setHeight(final float height) {
         this.height = height;
     }
 
