@@ -26,68 +26,310 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
-import android.widget.AbsSpinner;
 import android.widget.SpinnerAdapter;
 
+// TODO: Auto-generated Javadoc
 /**
  * An abstract base class for spinner widgets. SDK users will probably not need
  * to use this class.
  * 
- * @attr ref android.R.styleable#AbsSpinner_entries
  */
 public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
-    SpinnerAdapter mAdapter;
+    /** The m adapter. */
+    private SpinnerAdapter mAdapter;
 
-    int mHeightMeasureSpec;
-    int mWidthMeasureSpec;
-    boolean mBlockLayoutRequests;
-    int mSelectionLeftPadding = 0;
-    int mSelectionTopPadding = 0;
-    int mSelectionRightPadding = 0;
-    int mSelectionBottomPadding = 0;
-    Rect mSpinnerPadding = new Rect();
-    View mSelectedView = null;
-    Interpolator mInterpolator;
+    /** The m height measure spec. */
+    private int mHeightMeasureSpec;
 
-    RecycleBin mRecycler = new RecycleBin();
+    /** The m width measure spec. */
+    private int mWidthMeasureSpec;
+
+    /** The m block layout requests. */
+    private boolean mBlockLayoutRequests;
+
+    /**
+     * Checks if is m block layout requests.
+     * 
+     * @return true, if is m block layout requests
+     */
+    @Override
+    public boolean ismBlockLayoutRequests() {
+        return mBlockLayoutRequests;
+    }
+
+    /**
+     * Sets the m block layout requests.
+     * 
+     * @param mBlockLayoutRequests
+     *            the new m block layout requests
+     */
+    @Override
+    public void setmBlockLayoutRequests(final boolean mBlockLayoutRequests) {
+        this.mBlockLayoutRequests = mBlockLayoutRequests;
+    }
+
+    /**
+     * Gets the m selection left padding.
+     * 
+     * @return the m selection left padding
+     */
+    public int getmSelectionLeftPadding() {
+        return mSelectionLeftPadding;
+    }
+
+    /**
+     * Sets the m selection left padding.
+     * 
+     * @param mSelectionLeftPadding
+     *            the new m selection left padding
+     */
+    public void setmSelectionLeftPadding(final int mSelectionLeftPadding) {
+        this.mSelectionLeftPadding = mSelectionLeftPadding;
+    }
+
+    /**
+     * Gets the m selection top padding.
+     * 
+     * @return the m selection top padding
+     */
+    public int getmSelectionTopPadding() {
+        return mSelectionTopPadding;
+    }
+
+    /**
+     * Sets the m selection top padding.
+     * 
+     * @param mSelectionTopPadding
+     *            the new m selection top padding
+     */
+    public void setmSelectionTopPadding(final int mSelectionTopPadding) {
+        this.mSelectionTopPadding = mSelectionTopPadding;
+    }
+
+    /**
+     * Gets the m selection right padding.
+     * 
+     * @return the m selection right padding
+     */
+    public int getmSelectionRightPadding() {
+        return mSelectionRightPadding;
+    }
+
+    /**
+     * Sets the m selection right padding.
+     * 
+     * @param mSelectionRightPadding
+     *            the new m selection right padding
+     */
+    public void setmSelectionRightPadding(final int mSelectionRightPadding) {
+        this.mSelectionRightPadding = mSelectionRightPadding;
+    }
+
+    /**
+     * Gets the m selection bottom padding.
+     * 
+     * @return the m selection bottom padding
+     */
+    public int getmSelectionBottomPadding() {
+        return mSelectionBottomPadding;
+    }
+
+    /**
+     * Sets the m selection bottom padding.
+     * 
+     * @param mSelectionBottomPadding
+     *            the new m selection bottom padding
+     */
+    public void setmSelectionBottomPadding(final int mSelectionBottomPadding) {
+        this.mSelectionBottomPadding = mSelectionBottomPadding;
+    }
+
+    /**
+     * Gets the m spinner padding.
+     * 
+     * @return the m spinner padding
+     */
+    public Rect getmSpinnerPadding() {
+        return mSpinnerPadding;
+    }
+
+    /**
+     * Sets the m spinner padding.
+     * 
+     * @param mSpinnerPadding
+     *            the new m spinner padding
+     */
+    public void setmSpinnerPadding(final Rect mSpinnerPadding) {
+        this.mSpinnerPadding = mSpinnerPadding;
+    }
+
+    /**
+     * Gets the m selected view.
+     * 
+     * @return the m selected view
+     */
+    public View getmSelectedView() {
+        return mSelectedView;
+    }
+
+    /**
+     * Sets the m selected view.
+     * 
+     * @param mSelectedView
+     *            the new m selected view
+     */
+    public void setmSelectedView(final View mSelectedView) {
+        this.mSelectedView = mSelectedView;
+    }
+
+    /**
+     * Gets the m interpolator.
+     * 
+     * @return the m interpolator
+     */
+    public Interpolator getmInterpolator() {
+        return mInterpolator;
+    }
+
+    /**
+     * Sets the m interpolator.
+     * 
+     * @param mInterpolator
+     *            the new m interpolator
+     */
+    public void setmInterpolator(final Interpolator mInterpolator) {
+        this.mInterpolator = mInterpolator;
+    }
+
+    /**
+     * Gets the m recycler.
+     * 
+     * @return the m recycler
+     */
+    public RecycleBin getmRecycler() {
+        return mRecycler;
+    }
+
+    /**
+     * Sets the m recycler.
+     * 
+     * @param mRecycler
+     *            the new m recycler
+     */
+    public void setmRecycler(final RecycleBin mRecycler) {
+        this.mRecycler = mRecycler;
+    }
+
+    /**
+     * Gets the m data set observer.
+     * 
+     * @return the m data set observer
+     */
+    public DataSetObserver getmDataSetObserver() {
+        return mDataSetObserver;
+    }
+
+    /**
+     * Sets the m data set observer.
+     * 
+     * @param mDataSetObserver
+     *            the new m data set observer
+     */
+    public void setmDataSetObserver(final DataSetObserver mDataSetObserver) {
+        this.mDataSetObserver = mDataSetObserver;
+    }
+
+    /**
+     * Gets the m touch frame.
+     * 
+     * @return the m touch frame
+     */
+    public Rect getmTouchFrame() {
+        return mTouchFrame;
+    }
+
+    /**
+     * Sets the m touch frame.
+     * 
+     * @param mTouchFrame
+     *            the new m touch frame
+     */
+    public void setmTouchFrame(final Rect mTouchFrame) {
+        this.mTouchFrame = mTouchFrame;
+    }
+
+    /** The m selection left padding. */
+    private int mSelectionLeftPadding = 0;
+
+    /** The m selection top padding. */
+    private int mSelectionTopPadding = 0;
+
+    /** The m selection right padding. */
+    private int mSelectionRightPadding = 0;
+
+    /** The m selection bottom padding. */
+    private int mSelectionBottomPadding = 0;
+
+    /** The m spinner padding. */
+    private Rect mSpinnerPadding = new Rect();
+
+    /** The m selected view. */
+    private View mSelectedView = null;
+
+    /** The m interpolator. */
+    private Interpolator mInterpolator;
+
+    /** The m recycler. */
+    private RecycleBin mRecycler = new RecycleBin();
+
+    /** The m data set observer. */
     private DataSetObserver mDataSetObserver;
 
-    /** Temporary frame to hold a child View's frame rectangle */
+    /** Temporary frame to hold a child View's frame rectangle. */
     private Rect mTouchFrame;
 
+    /**
+     * Instantiates a new cover abs spinner.
+     * 
+     * @param context
+     *            the context
+     */
     public CoverAbsSpinner(final Context context) {
         super(context);
         initAbsSpinner();
     }
 
+    /**
+     * Instantiates a new cover abs spinner.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     */
     public CoverAbsSpinner(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
+    /**
+     * Instantiates a new cover abs spinner.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     * @param defStyle
+     *            the def style
+     */
     public CoverAbsSpinner(final Context context, final AttributeSet attrs,
             final int defStyle) {
         super(context, attrs, defStyle);
         initAbsSpinner();
-
-        // TypedArray a = context.obtainStyledAttributes(attrs,
-        // com.android.internal.R.styleable.CoverAbsSpinner, defStyle, 0);
-        //
-        // CharSequence[] entries =
-        // a.getTextArray(R.styleable.AbsSpinner_entries);
-        // if (entries != null) {
-        // ArrayAdapter<CharSequence> adapter =
-        // new ArrayAdapter<CharSequence>(context,
-        // R.layout.simple_spinner_item, entries);
-        // adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        // setAdapter(adapter);
-        // }
-
-        // a.recycle();
     }
 
     /**
-     * Common code for different constructor flavors
+     * Common code for different constructor flavors.
      */
     private void initAbsSpinner() {
         setFocusable(true);
@@ -104,30 +346,30 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      */
     @Override
     public void setAdapter(final SpinnerAdapter adapter) {
-        if (null != mAdapter) {
-            mAdapter.unregisterDataSetObserver(mDataSetObserver);
+        if (null != getmAdapter()) {
+            getmAdapter().unregisterDataSetObserver(mDataSetObserver);
             resetList();
         }
 
-        mAdapter = adapter;
+        setmAdapter(adapter);
 
-        mOldSelectedPosition = INVALID_POSITION;
-        mOldSelectedRowId = INVALID_ROW_ID;
+        setmOldSelectedPosition(INVALID_POSITION);
+        setmOldSelectedRowId(INVALID_ROW_ID);
 
-        if (mAdapter != null) {
-            mOldItemCount = mItemCount;
-            mItemCount = mAdapter.getCount();
+        if (getmAdapter() != null) {
+            setmOldItemCount(getmItemCount());
+            setmItemCount(getmAdapter().getCount());
             checkFocus();
 
             mDataSetObserver = new AdapterDataSetObserver();
-            mAdapter.registerDataSetObserver(mDataSetObserver);
+            getmAdapter().registerDataSetObserver(mDataSetObserver);
 
-            final int position = mItemCount > 0 ? 0 : INVALID_POSITION;
+            final int position = getmItemCount() > 0 ? 0 : INVALID_POSITION;
 
             setSelectedPositionInt(position);
             setNextSelectedPositionInt(position);
 
-            if (mItemCount == 0) {
+            if (getmItemCount() == 0) {
                 // Nothing selected
                 checkSelectionChanged();
             }
@@ -143,15 +385,15 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     }
 
     /**
-     * Clear out all children from the list
+     * Clear out all children from the list.
      */
     void resetList() {
-        mDataChanged = false;
-        mNeedSync = false;
+        setmDataChanged(false);
+        setmNeedSync(false);
 
         removeAllViewsInLayout();
-        mOldSelectedPosition = INVALID_POSITION;
-        mOldSelectedRowId = INVALID_ROW_ID;
+        setmOldSelectedPosition(INVALID_POSITION);
+        setmOldSelectedRowId(INVALID_ROW_ID);
 
         setSelectedPositionInt(INVALID_POSITION);
         setNextSelectedPositionInt(INVALID_POSITION);
@@ -159,6 +401,12 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
     }
 
     /**
+     * On measure.
+     * 
+     * @param widthMeasureSpec
+     *            the width measure spec
+     * @param heightMeasureSpec
+     *            the height measure spec
      * @see android.view.View#measure(int, int)
      * 
      *      Figure out the dimensions of this Spinner. The width comes from the
@@ -182,7 +430,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         mSpinnerPadding.bottom = getPaddingBottom() > mSelectionBottomPadding ? getPaddingBottom()
                 : mSelectionBottomPadding;
 
-        if (mDataChanged) {
+        if (ismDataChanged()) {
             handleDataChanged();
         }
 
@@ -191,13 +439,13 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         boolean needsMeasuring = true;
 
         final int selectedPosition = getSelectedItemPosition();
-        if (selectedPosition >= 0 && mAdapter != null) {
+        if (selectedPosition >= 0 && getmAdapter() != null) {
             // Try looking in the recycler. (Maybe we were measured once
             // already)
             View view = mRecycler.get(selectedPosition);
             if (view == null) {
                 // Make a new one
-                view = mAdapter.getView(selectedPosition, null, this);
+                view = getmAdapter().getView(selectedPosition, null, this);
             }
 
             if (view != null) {
@@ -207,9 +455,9 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
             if (view != null) {
                 if (view.getLayoutParams() == null) {
-                    mBlockLayoutRequests = true;
+                    setmBlockLayoutRequests(true);
                     view.setLayoutParams(generateDefaultLayoutParams());
-                    mBlockLayoutRequests = false;
+                    setmBlockLayoutRequests(false);
                 }
                 measureChild(view, widthMeasureSpec, heightMeasureSpec);
 
@@ -238,24 +486,46 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         widthSize = resolveSize(preferredWidth, widthMeasureSpec);
 
         setMeasuredDimension(widthSize, heightSize);
-        mHeightMeasureSpec = heightMeasureSpec;
-        mWidthMeasureSpec = widthMeasureSpec;
+        setmHeightMeasureSpec(heightMeasureSpec);
+        setmWidthMeasureSpec(widthMeasureSpec);
     }
 
+    /**
+     * Gets the child height.
+     * 
+     * @param child
+     *            the child
+     * @return the child height
+     */
     int getChildHeight(final View child) {
         return child.getMeasuredHeight();
     }
 
+    /**
+     * Gets the child width.
+     * 
+     * @param child
+     *            the child
+     * @return the child width
+     */
     int getChildWidth(final View child) {
         return child.getMeasuredWidth();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#generateDefaultLayoutParams()
+     */
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         return new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    /**
+     * Recycle all views.
+     */
     void recycleAllViews() {
         final int childCount = getChildCount();
         final CoverAbsSpinner.RecycleBin recycleBin = mRecycler;
@@ -263,11 +533,16 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         // All views go in recycler
         for (int i = 0; i < childCount; i++) {
             final View v = getChildAt(i);
-            final int index = mFirstPosition + i;
+            final int index = getmFirstPosition() + i;
             recycleBin.put(index, v);
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#handleDataChanged()
+     */
     @Override
     void handleDataChanged() {
         // FIXME -- this is called from both measure and layout.
@@ -278,14 +553,25 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
     /**
      * Jump directly to a specific item in the adapter data.
+     * 
+     * @param position
+     *            the position
+     * @param animate
+     *            the animate
      */
     public void setSelection(final int position, final boolean animate) {
         // Animate only if requested position is already on screen somewhere
-        final boolean shouldAnimate = animate && mFirstPosition <= position
-                && position <= mFirstPosition + getChildCount() - 1;
+        final boolean shouldAnimate = animate
+                && getmFirstPosition() <= position
+                && position <= getmFirstPosition() + getChildCount() - 1;
         setSelectionInt(position, shouldAnimate);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#setSelection(int)
+     */
     @Override
     public void setSelection(final int position) {
         setNextSelectedPositionInt(position);
@@ -303,21 +589,34 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
      * 
      */
     void setSelectionInt(final int position, final boolean animate) {
-        if (position != mOldSelectedPosition) {
-            mBlockLayoutRequests = true;
-            final int delta = position - mSelectedPosition;
+        if (position != getmOldSelectedPosition()) {
+            setmBlockLayoutRequests(true);
+            final int delta = position - getmSelectedPosition();
             setNextSelectedPositionInt(position);
             layout(delta, animate);
-            mBlockLayoutRequests = false;
+            setmBlockLayoutRequests(false);
         }
     }
 
+    /**
+     * Layout.
+     * 
+     * @param delta
+     *            the delta
+     * @param animate
+     *            the animate
+     */
     abstract void layout(int delta, boolean animate);
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#getSelectedView()
+     */
     @Override
     public View getSelectedView() {
-        if (mItemCount > 0 && mSelectedPosition >= 0) {
-            return getChildAt(mSelectedPosition - mFirstPosition);
+        if (getmItemCount() > 0 && getmSelectedPosition() >= 0) {
+            return getChildAt(getmSelectedPosition() - getmFirstPosition());
         } else {
             return null;
         }
@@ -325,25 +624,35 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
 
     /**
      * Override to prevent spamming ourselves with layout requests as we place
-     * views
+     * views.
      * 
      * @see android.view.View#requestLayout()
      */
     @Override
     public void requestLayout() {
-        if (!mBlockLayoutRequests) {
+        if (!ismBlockLayoutRequests()) {
             super.requestLayout();
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#getAdapter()
+     */
     @Override
     public SpinnerAdapter getAdapter() {
-        return mAdapter;
+        return getmAdapter();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#getCount()
+     */
     @Override
     public int getCount() {
-        return mItemCount;
+        return getmItemCount();
     }
 
     /**
@@ -370,26 +679,39 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             if (child.getVisibility() == View.VISIBLE) {
                 child.getHitRect(frame);
                 if (frame.contains(x, y)) {
-                    return mFirstPosition + i;
+                    return getmFirstPosition() + i;
                 }
             }
         }
         return INVALID_POSITION;
     }
 
+    /**
+     * The Class SavedState.
+     */
     static class SavedState extends BaseSavedState {
-        long selectedId;
-        int position;
+
+        /** The selected id. */
+        private long selectedId;
+
+        /** The position. */
+        private int position;
 
         /**
-         * Constructor called from {@link AbsSpinner#onSaveInstanceState()}
+         * Constructor called from AbsSpinner#onSaveInstanceState().
+         * 
+         * @param superState
+         *            the super state
          */
         SavedState(final Parcelable superState) {
             super(superState);
         }
 
         /**
-         * Constructor called from {@link #CREATOR}
+         * Constructor called from {@link #CREATOR}.
+         * 
+         * @param in
+         *            the in
          */
         private SavedState(final Parcel in) {
             super(in);
@@ -404,6 +726,11 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             out.writeInt(position);
         }
 
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Object#toString()
+         */
         @Override
         public String toString() {
             return "AbsSpinner.SavedState{"
@@ -412,6 +739,7 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
                     + "}";
         }
 
+        /** The Constant CREATOR. */
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(final Parcel in) {
@@ -425,6 +753,11 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         };
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#onSaveInstanceState()
+     */
     @Override
     public Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
@@ -438,6 +771,11 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         return ss;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#onRestoreInstanceState(android.os.Parcelable)
+     */
     @Override
     public void onRestoreInstanceState(final Parcelable state) {
         final SavedState ss = (SavedState) state;
@@ -445,22 +783,99 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
         super.onRestoreInstanceState(ss.getSuperState());
 
         if (ss.selectedId >= 0) {
-            mDataChanged = true;
-            mNeedSync = true;
-            mSyncRowId = ss.selectedId;
-            mSyncPosition = ss.position;
-            mSyncMode = SYNC_SELECTED_POSITION;
+            setmDataChanged(true);
+            setmNeedSync(true);
+            setmSyncRowId(ss.selectedId);
+            setmSyncPosition(ss.position);
+            setmSyncMode(SYNC_SELECTED_POSITION);
             requestLayout();
         }
     }
 
+    /**
+     * Sets the m adapter.
+     * 
+     * @param mAdapter
+     *            the new m adapter
+     */
+    public void setmAdapter(final SpinnerAdapter mAdapter) {
+        this.mAdapter = mAdapter;
+    }
+
+    /**
+     * Gets the m adapter.
+     * 
+     * @return the m adapter
+     */
+    public SpinnerAdapter getmAdapter() {
+        return mAdapter;
+    }
+
+    /**
+     * Sets the m height measure spec.
+     * 
+     * @param mHeightMeasureSpec
+     *            the new m height measure spec
+     */
+    public void setmHeightMeasureSpec(final int mHeightMeasureSpec) {
+        this.mHeightMeasureSpec = mHeightMeasureSpec;
+    }
+
+    /**
+     * Gets the m height measure spec.
+     * 
+     * @return the m height measure spec
+     */
+    public int getmHeightMeasureSpec() {
+        return mHeightMeasureSpec;
+    }
+
+    /**
+     * Sets the m width measure spec.
+     * 
+     * @param mWidthMeasureSpec
+     *            the new m width measure spec
+     */
+    public void setmWidthMeasureSpec(final int mWidthMeasureSpec) {
+        this.mWidthMeasureSpec = mWidthMeasureSpec;
+    }
+
+    /**
+     * Gets the m width measure spec.
+     * 
+     * @return the m width measure spec
+     */
+    public int getmWidthMeasureSpec() {
+        return mWidthMeasureSpec;
+    }
+
+    /**
+     * The Class RecycleBin.
+     */
     class RecycleBin {
+
+        /** The m scrap heap. */
         private final SparseArray<View> mScrapHeap = new SparseArray<View>();
 
+        /**
+         * Put.
+         * 
+         * @param position
+         *            the position
+         * @param v
+         *            the v
+         */
         public void put(final int position, final View v) {
             mScrapHeap.put(position, v);
         }
 
+        /**
+         * Gets the.
+         * 
+         * @param position
+         *            the position
+         * @return the view
+         */
         View get(final int position) {
             // System.out.print("Looking for " + position);
             final View result = mScrapHeap.get(position);
@@ -473,11 +888,21 @@ public abstract class CoverAbsSpinner extends CoverAdapterView<SpinnerAdapter> {
             return result;
         }
 
+        /**
+         * Peek.
+         * 
+         * @param position
+         *            the position
+         * @return the view
+         */
         View peek(final int position) {
             // System.out.print("Looking for " + position);
             return mScrapHeap.get(position);
         }
 
+        /**
+         * Clear.
+         */
         void clear() {
             final SparseArray<View> scrapHeap = mScrapHeap;
             final int count = scrapHeap.size();

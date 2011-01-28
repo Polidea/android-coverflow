@@ -12,6 +12,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
 
+// TODO: Auto-generated Javadoc
 /**
  * This adapter provides reflected images from linked adapter.
  * 
@@ -19,13 +20,22 @@ import android.graphics.Shader.TileMode;
  * 
  */
 public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
+    
+    /** The linked adapter. */
     private final AbstractCoverFlowImageAdapter linkedAdapter;
     /**
      * Gap between the image and its reflection.
      */
     private float reflectionGap;
+    
+    /** The image reflection ratio. */
     private float imageReflectionRatio;
 
+    /**
+     * Sets the width ratio.
+     *
+     * @param imageReflectionRatio the new width ratio
+     */
     public void setWidthRatio(final float imageReflectionRatio) {
         this.imageReflectionRatio = imageReflectionRatio;
     }
@@ -44,14 +54,27 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
         this.linkedAdapter = linkedAdapter;
     }
 
+    /**
+     * Sets the reflection gap.
+     *
+     * @param reflectionGap the new reflection gap
+     */
     public void setReflectionGap(final float reflectionGap) {
         this.reflectionGap = reflectionGap;
     }
 
+    /**
+     * Gets the reflection gap.
+     *
+     * @return the reflection gap
+     */
     public float getReflectionGap() {
         return reflectionGap;
     }
 
+    /* (non-Javadoc)
+     * @see pl.polidea.coverflow.AbstractCoverFlowImageAdapter#createBitmap(int)
+     */
     @Override
     protected Bitmap createBitmap(final int position) {
         return createReflectedImages(linkedAdapter.getItem(position));
@@ -59,7 +82,8 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
 
     /**
      * Creates the reflected images.
-     * 
+     *
+     * @param originalImage the original image
      * @return true, if successful
      */
     public Bitmap createReflectedImages(final Bitmap originalImage) {
@@ -89,6 +113,9 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
         return bitmapWithReflection;
     }
 
+    /* (non-Javadoc)
+     * @see android.widget.Adapter#getCount()
+     */
     @Override
     public int getCount() {
         return linkedAdapter.getCount();

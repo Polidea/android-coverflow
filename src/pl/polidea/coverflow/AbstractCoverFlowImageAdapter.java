@@ -17,14 +17,24 @@ import android.widget.ImageView;
  * 
  */
 public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
+
+    /** The Constant TAG. */
     private static final String TAG = AbstractCoverFlowImageAdapter.class
             .getSimpleName();
+
+    /** The context. */
     private final Context context;
 
+    /** The width. */
     private float width = 0;
+
+    /** The height. */
     private float height = 0;
 
+    /** The bitmap map. */
     private final HashMap<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
+
+    /** The image view map. */
     private final HashMap<Integer, WeakReference<ImageView>> imageViewMap = new HashMap<Integer, WeakReference<ImageView>>();
 
     /**
@@ -74,7 +84,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
     }
 
     /**
-     * Creates new bitmap for the position specified
+     * Creates new bitmap for the position specified.
      * 
      * @param position
      *            position
@@ -82,11 +92,22 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      */
     protected abstract Bitmap createBitmap(int position);
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.widget.Adapter#getItemId(int)
+     */
     @Override
     public final synchronized long getItemId(final int position) {
         return position;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.widget.Adapter#getView(int, android.view.View,
+     * android.view.ViewGroup)
+     */
     @Override
     public final synchronized ImageView getView(final int position,
             final View convertView, final ViewGroup parent) {

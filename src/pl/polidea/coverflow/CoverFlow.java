@@ -39,7 +39,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Transformation;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Scroller;
 import android.widget.SpinnerAdapter;
@@ -53,19 +52,19 @@ import android.widget.SpinnerAdapter;
  * each View given to the Gallery from the Adapter. If you are not doing this,
  * you may need to adjust some Gallery properties, such as the spacing.
  * <p>
- * Views given to the Gallery should use {@link Gallery.LayoutParams} as their
- * layout parameters type.
+ * Views given to the Gallery should use Gallery.LayoutParams as their layout
+ * parameters type.
  * 
- * @attr ref android.R.styleable#Gallery_animationDuration
- * @attr ref android.R.styleable#Gallery_spacing
- * @attr ref android.R.styleable#Gallery_gravity
  */
 
 public class CoverFlow extends CoverAbsSpinner implements
         GestureDetector.OnGestureListener {
+
+    /** The Constant TAG. */
     private static final String TAG = CoverFlow.class.getSimpleName();
 
-    private static final boolean localLOGV = false;
+    /** The Constant LOCAL_LOGV. */
+    private static final boolean LOCAL_LOGV = false;
 
     /**
      * Duration in milliseconds from the start of a scroll during which we're
@@ -99,6 +98,7 @@ public class CoverFlow extends CoverAbsSpinner implements
      */
     private int mRightMost;
 
+    /** The m gravity. */
     private int mGravity;
 
     /**
@@ -169,6 +169,7 @@ public class CoverFlow extends CoverAbsSpinner implements
      */
     private boolean mReceivedInvokeKeyDown;
 
+    /** The m context menu info. */
     private AdapterContextMenuInfo mContextMenuInfo;
 
     /**
@@ -177,74 +178,152 @@ public class CoverFlow extends CoverAbsSpinner implements
      */
     private boolean mIsFirstScroll;
 
-    /**
-     * The maximum angle the Child ImageView will be rotated by
-     */
+    /** The maximum angle the Child ImageView will be rotated by. */
     private final int mMaxRotationAngle = 60;
 
+    /** The image height. */
     private float imageHeight;
 
+    /** The image width. */
     private float imageWidth;
 
+    /** The reflection gap. */
     private float reflectionGap;
 
+    /** The with reflection. */
     private boolean withReflection;
 
+    /** The image reflection ratio. */
     private float imageReflectionRatio;
 
+    /**
+     * Gets the image height.
+     * 
+     * @return the image height
+     */
     public float getImageHeight() {
         return imageHeight;
     }
 
+    /**
+     * Sets the image height.
+     * 
+     * @param imageHeight
+     *            the new image height
+     */
     public void setImageHeight(final float imageHeight) {
         this.imageHeight = imageHeight;
     }
 
+    /**
+     * Gets the image width.
+     * 
+     * @return the image width
+     */
     public float getImageWidth() {
         return imageWidth;
     }
 
+    /**
+     * Sets the image width.
+     * 
+     * @param imageWidth
+     *            the new image width
+     */
     public void setImageWidth(final float imageWidth) {
         this.imageWidth = imageWidth;
     }
 
+    /**
+     * Gets the reflection gap.
+     * 
+     * @return the reflection gap
+     */
     public float getReflectionGap() {
         return reflectionGap;
     }
 
+    /**
+     * Sets the reflection gap.
+     * 
+     * @param reflectionGap
+     *            the new reflection gap
+     */
     public void setReflectionGap(final float reflectionGap) {
         this.reflectionGap = reflectionGap;
     }
 
+    /**
+     * Checks if is with reflection.
+     * 
+     * @return true, if is with reflection
+     */
     public boolean isWithReflection() {
         return withReflection;
     }
 
+    /**
+     * Sets the with reflection.
+     * 
+     * @param withReflection
+     *            the new with reflection
+     */
     public void setWithReflection(final boolean withReflection) {
         this.withReflection = withReflection;
     }
 
+    /**
+     * Sets the image reflection ratio.
+     * 
+     * @param imageReflectionRatio
+     *            the new image reflection ratio
+     */
     public void setImageReflectionRatio(final float imageReflectionRatio) {
         this.imageReflectionRatio = imageReflectionRatio;
     }
 
+    /**
+     * Gets the image reflection ratio.
+     * 
+     * @return the image reflection ratio
+     */
     public float getImageReflectionRatio() {
         return imageReflectionRatio;
     }
 
-    /**
-     * The maximum zoom on the centre Child
-     */
+    /** The maximum zoom on the centre Child. */
     private static int mMaxZoom = -120;
 
+    /**
+     * Instantiates a new cover flow.
+     * 
+     * @param context
+     *            the context
+     */
     public CoverFlow(final Context context) {
         this(context, null);
     }
 
+    /**
+     * Instantiates a new cover flow.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     */
     public CoverFlow(final Context context, final AttributeSet attrs) {
         this(context, attrs, android.R.attr.galleryStyle);
     }
 
+    /**
+     * Parses the attributes.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     */
     private void parseAttributes(final Context context, final AttributeSet attrs) {
         final TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.CoverFlow);
@@ -265,9 +344,10 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * Sets the
+     * Sets the.
      * 
      * @param adapter
+     *            the new adapter
      */
     @Override
     public void setAdapter(final SpinnerAdapter adapter) {
@@ -294,6 +374,16 @@ public class CoverFlow extends CoverAbsSpinner implements
         requestLayout();
     }
 
+    /**
+     * Instantiates a new cover flow.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     * @param defStyle
+     *            the def style
+     */
     public CoverFlow(final Context context, final AttributeSet attrs,
             final int defStyle) {
         super(context, attrs, defStyle);
@@ -319,11 +409,11 @@ public class CoverFlow extends CoverAbsSpinner implements
     /**
      * Whether or not to callback when an item that is not selected is clicked.
      * If false, the item will become selected (and re-centered). If true, the
-     * {@link #getOnItemClickListener()} will get the callback.
      * 
      * @param shouldCallback
      *            Whether or not to callback on the listener when a item that is
-     *            not selected is clicked.
+     *            not selected is clicked. {@link #getOnItemClickListener()}
+     *            will get the callback.
      * @hide
      */
     public void setCallbackOnUnselectedItemClick(final boolean shouldCallback) {
@@ -344,11 +434,10 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * Sets the spacing between items in a Gallery
+     * Sets the spacing between items in a Gallery.
      * 
      * @param spacing
      *            The spacing in pixels between items in the Gallery
-     * 
      * @attr ref android.R.styleable#Gallery_spacing
      */
     public void setSpacing(final int spacing) {
@@ -367,6 +456,13 @@ public class CoverFlow extends CoverAbsSpinner implements
         mUnselectedAlpha = unselectedAlpha;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.view.ViewGroup#getChildStaticTransformation(android.view.View,
+     * android.view.animation.Transformation)
+     */
     @Override
     protected boolean getChildStaticTransformation(final View child,
             final Transformation t) {
@@ -377,40 +473,79 @@ public class CoverFlow extends CoverAbsSpinner implements
         return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#computeHorizontalScrollExtent()
+     */
     @Override
     protected int computeHorizontalScrollExtent() {
         // Only 1 item is considered to be selected
         return 1;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#computeHorizontalScrollOffset()
+     */
     @Override
     protected int computeHorizontalScrollOffset() {
         // Current scroll position is the same as the selected position
         return getSelectedItemPosition();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#computeHorizontalScrollRange()
+     */
     @Override
     protected int computeHorizontalScrollRange() {
         // Scroll range is the same as the item count
         return getCount();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.view.ViewGroup#checkLayoutParams(android.view.ViewGroup.LayoutParams
+     * )
+     */
     @Override
     protected boolean checkLayoutParams(final ViewGroup.LayoutParams p) {
         return p instanceof LayoutParams;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#generateLayoutParams(android.view.ViewGroup.
+     * LayoutParams)
+     */
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(
             final ViewGroup.LayoutParams p) {
         return new LayoutParams(p);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.view.ViewGroup#generateLayoutParams(android.util.AttributeSet)
+     */
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(final AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAbsSpinner#generateDefaultLayoutParams()
+     */
     @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         /*
@@ -420,6 +555,12 @@ public class CoverFlow extends CoverAbsSpinner implements
                 ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#onLayout(boolean, int, int,
+     * int, int)
+     */
     @Override
     protected void onLayout(final boolean changed, final int l, final int t,
             final int r, final int b) {
@@ -429,11 +570,17 @@ public class CoverFlow extends CoverAbsSpinner implements
          * Remember that we are in layout to prevent more layout request from
          * being generated.
          */
-        mInLayout = true;
+        setmInLayout(true);
         layout(0, false);
-        mInLayout = false;
+        setmInLayout(false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * pl.polidea.coverflow.CoverAbsSpinner#getChildHeight(android.view.View)
+     */
     @Override
     int getChildHeight(final View child) {
         return child.getMeasuredHeight();
@@ -476,18 +623,27 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
 
         // Clear unused views
-        mRecycler.clear();
+        getmRecycler().clear();
 
         setSelectionToCenterChild();
 
         invalidate();
     }
 
+    /**
+     * Gets the limited motion scroll amount.
+     * 
+     * @param motionToLeft
+     *            the motion to left
+     * @param deltaX
+     *            the delta x
+     * @return the limited motion scroll amount
+     */
     int getLimitedMotionScrollAmount(final boolean motionToLeft,
             final int deltaX) {
-        final int extremeItemPosition = motionToLeft ? mItemCount - 1 : 0;
+        final int extremeItemPosition = motionToLeft ? getmItemCount() - 1 : 0;
         final View extremeChild = getChildAt(extremeItemPosition
-                - mFirstPosition);
+                - getmFirstPosition());
 
         if (extremeChild == null) {
             return deltaX;
@@ -523,6 +679,8 @@ public class CoverFlow extends CoverAbsSpinner implements
      * 
      * @param offset
      *            the number of pixels to offset
+     * @param toLeft
+     *            the to left
      */
     private void offsetChildrenLeftAndRight(final int offset,
             final boolean toLeft) {
@@ -555,6 +713,8 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
+     * Gets the center of gallery.
+     * 
      * @return The center of this Gallery.
      */
     private int getCenterOfGallery() {
@@ -563,6 +723,10 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
+     * Gets the center of view.
+     * 
+     * @param view
+     *            the view
      * @return The center of the given view.
      */
     private static int getCenterOfView(final View view) {
@@ -578,7 +742,7 @@ public class CoverFlow extends CoverAbsSpinner implements
      */
     private void detachOffScreenChildren(final boolean toLeft) {
         final int numChildren = getChildCount();
-        final int firstPosition = mFirstPosition;
+        final int firstPosition = getmFirstPosition();
         int start = 0;
         int count = 0;
 
@@ -590,7 +754,7 @@ public class CoverFlow extends CoverAbsSpinner implements
                     break;
                 } else {
                     count++;
-                    mRecycler.put(firstPosition + i, child);
+                    getmRecycler().put(firstPosition + i, child);
                 }
             }
         } else {
@@ -602,7 +766,7 @@ public class CoverFlow extends CoverAbsSpinner implements
                 } else {
                     start = i;
                     count++;
-                    mRecycler.put(firstPosition + i, child);
+                    getmRecycler().put(firstPosition + i, child);
                 }
             }
         }
@@ -610,7 +774,7 @@ public class CoverFlow extends CoverAbsSpinner implements
         detachViewsFromParent(start, count);
 
         if (toLeft) {
-            mFirstPosition += count;
+            setmFirstPosition(getmFirstPosition() + count);
         }
     }
 
@@ -635,6 +799,9 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
     }
 
+    /**
+     * On finished movement.
+     */
     private void onFinishedMovement() {
         if (mSuppressSelectionChanged) {
             mSuppressSelectionChanged = false;
@@ -645,6 +812,11 @@ public class CoverFlow extends CoverAbsSpinner implements
         invalidate();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#selectionChanged()
+     */
     @Override
     void selectionChanged() {
         if (!mSuppressSelectionChanged) {
@@ -694,9 +866,9 @@ public class CoverFlow extends CoverAbsSpinner implements
             }
         }
 
-        final int newPos = mFirstPosition + newSelectedChildIndex;
+        final int newPos = getmFirstPosition() + newSelectedChildIndex;
 
-        if (newPos != mSelectedPosition) {
+        if (newPos != getmSelectedPosition()) {
             setSelectedPositionInt(newPos);
             setNextSelectedPositionInt(newPos);
             checkSelectionChanged();
@@ -713,27 +885,29 @@ public class CoverFlow extends CoverAbsSpinner implements
      *            Change in the selected position. +1 means the selection is
      *            moving to the right, so views are scrolling to the left. -1
      *            means the selection is moving to the left.
+     * @param animate
+     *            the animate
      */
     @Override
     void layout(final int delta, final boolean animate) {
 
-        final int childrenLeft = mSpinnerPadding.left;
-        final int childrenWidth = getRight() - getLeft() - mSpinnerPadding.left
-                - mSpinnerPadding.right;
+        final int childrenLeft = getmSpinnerPadding().left;
+        final int childrenWidth = getRight() - getLeft()
+                - getmSpinnerPadding().left - getmSpinnerPadding().right;
 
-        if (mDataChanged) {
+        if (ismDataChanged()) {
             handleDataChanged();
         }
 
         // Handle an empty gallery by removing all views.
-        if (mItemCount == 0) {
+        if (getmItemCount() == 0) {
             resetList();
             return;
         }
 
         // Update to the new selected position.
-        if (mNextSelectedPosition >= 0) {
-            setSelectedPositionInt(mNextSelectedPosition);
+        if (getmNextSelectedPosition() >= 0) {
+            setSelectedPositionInt(getmNextSelectedPosition());
         }
 
         // All views go in recycler while we are in layout
@@ -756,8 +930,8 @@ public class CoverFlow extends CoverAbsSpinner implements
          * mFirstPosition will be decreased as we add views to the left later
          * on. The 0 for x will be offset in a couple lines down.
          */
-        mFirstPosition = mSelectedPosition;
-        final View sel = makeAndAddView(mSelectedPosition, 0, 0, true);
+        setmFirstPosition(getmSelectedPosition());
+        final View sel = makeAndAddView(getmSelectedPosition(), 0, 0, true);
 
         // Put the selected child in the center
         final int selectedOffset = childrenLeft + childrenWidth / 2
@@ -768,18 +942,21 @@ public class CoverFlow extends CoverAbsSpinner implements
         fillToGalleryLeft();
 
         // Flush any cached views that did not get reused above
-        mRecycler.clear();
+        getmRecycler().clear();
 
         invalidate();
         checkSelectionChanged();
 
-        mDataChanged = false;
-        mNeedSync = false;
-        setNextSelectedPositionInt(mSelectedPosition);
+        setmDataChanged(false);
+        setmNeedSync(false);
+        setNextSelectedPositionInt(getmSelectedPosition());
 
         updateSelectedItemMetadata();
     }
 
+    /**
+     * Fill to gallery left.
+     */
     private void fillToGalleryLeft() {
         final int itemSpacing = mSpacing;
         final int galleryLeft = getPaddingLeft();
@@ -790,7 +967,7 @@ public class CoverFlow extends CoverAbsSpinner implements
         int curRightEdge;
 
         if (prevIterationView != null) {
-            curPosition = mFirstPosition - 1;
+            curPosition = getmFirstPosition() - 1;
             curRightEdge = prevIterationView.getLeft() - itemSpacing;
         } else {
             // No children available!
@@ -801,10 +978,10 @@ public class CoverFlow extends CoverAbsSpinner implements
 
         while (curRightEdge > galleryLeft && curPosition >= 0) {
             prevIterationView = makeAndAddView(curPosition, curPosition
-                    - mSelectedPosition, curRightEdge, false);
+                    - getmSelectedPosition(), curRightEdge, false);
 
             // Remember some state
-            mFirstPosition = curPosition;
+            setmFirstPosition(curPosition);
 
             // Set state for next iteration
             curRightEdge = prevIterationView.getLeft() - itemSpacing;
@@ -812,11 +989,14 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
     }
 
+    /**
+     * Fill to gallery right.
+     */
     private void fillToGalleryRight() {
         final int itemSpacing = mSpacing;
         final int galleryRight = getRight() - getLeft() - getPaddingRight();
         final int numChildren = getChildCount();
-        final int numItems = mItemCount;
+        final int numItems = getmItemCount();
 
         // Set state for initial iteration
         View prevIterationView = getChildAt(numChildren - 1);
@@ -824,17 +1004,18 @@ public class CoverFlow extends CoverAbsSpinner implements
         int curLeftEdge;
 
         if (prevIterationView != null) {
-            curPosition = mFirstPosition + numChildren;
+            curPosition = getmFirstPosition() + numChildren;
             curLeftEdge = prevIterationView.getRight() + itemSpacing;
         } else {
-            mFirstPosition = curPosition = mItemCount - 1;
+            curPosition = getmItemCount() - 1;
+            setmFirstPosition(curPosition);
             curLeftEdge = getPaddingLeft();
             mShouldStopFling = true;
         }
 
         while (curLeftEdge < galleryRight && curPosition < numItems) {
             prevIterationView = makeAndAddView(curPosition, curPosition
-                    - mSelectedPosition, curLeftEdge, true);
+                    - getmSelectedPosition(), curLeftEdge, true);
 
             // Set state for next iteration
             curLeftEdge = prevIterationView.getRight() + itemSpacing;
@@ -843,7 +1024,7 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * Transform the Image Bitmap by the Angle passed
+     * Transform the Image Bitmap by the Angle passed.
      * 
      * @param imageView
      *            ImageView the ImageView whose bitmap we want to rotate
@@ -854,7 +1035,7 @@ public class CoverFlow extends CoverAbsSpinner implements
      * @param rotationAngle
      *            the Angle by which to rotate the Bitmap
      */
-    static private void transformImageBitmap(final ImageView imageView,
+    private static void transformImageBitmap(final ImageView imageView,
             final int offset, final boolean initialLayout,
             final int rotationAngle) {
         final Camera camera = new Camera();
@@ -931,8 +1112,8 @@ public class CoverFlow extends CoverAbsSpinner implements
         Log.d(TAG, "Add view for position: " + position);
         ImageView child;
 
-        if (!mDataChanged) {
-            child = (ImageView) mRecycler.get(position);
+        if (!ismDataChanged()) {
+            child = (ImageView) getmRecycler().get(position);
 
             if (child != null) {
                 // Can reuse an existing view
@@ -952,7 +1133,7 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
 
         // Nothing found in the recycler -- ask the adapter for a view
-        child = (ImageView) mAdapter.getView(position, null, this);
+        child = (ImageView) getmAdapter().getView(position, null, this);
 
         // Make sure we set anti-aliasing otherwise we get jaggies
         final BitmapDrawable drawable = (BitmapDrawable) child.getDrawable();
@@ -997,11 +1178,11 @@ public class CoverFlow extends CoverAbsSpinner implements
 
         // Get measure specs
         final int childHeightSpec = ViewGroup.getChildMeasureSpec(
-                mHeightMeasureSpec, mSpinnerPadding.top
-                        + mSpinnerPadding.bottom, lp.height);
+                getmHeightMeasureSpec(), getmSpinnerPadding().top
+                        + getmSpinnerPadding().bottom, lp.height);
         final int childWidthSpec = ViewGroup.getChildMeasureSpec(
-                mWidthMeasureSpec,
-                mSpinnerPadding.left + mSpinnerPadding.right, lp.width);
+                getmWidthMeasureSpec(), getmSpinnerPadding().left
+                        + getmSpinnerPadding().right, lp.width);
 
         // Measure child
         child.measure(childWidthSpec, childHeightSpec);
@@ -1026,10 +1207,12 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * Figure out vertical placement based on mGravity
+     * Figure out vertical placement based on mGravity.
      * 
      * @param child
      *            Child to place
+     * @param duringLayout
+     *            the during layout
      * @return Where the top of the child should be
      */
     private int calculateTop(final View child, final boolean duringLayout) {
@@ -1041,20 +1224,28 @@ public class CoverFlow extends CoverAbsSpinner implements
 
         switch (mGravity) {
         case Gravity.TOP:
-            childTop = mSpinnerPadding.top;
+            childTop = getmSpinnerPadding().top;
             break;
         case Gravity.CENTER_VERTICAL:
-            final int availableSpace = myHeight - mSpinnerPadding.bottom
-                    - mSpinnerPadding.top - childHeight;
-            childTop = mSpinnerPadding.top + availableSpace / 2;
+            final int availableSpace = myHeight - getmSpinnerPadding().bottom
+                    - getmSpinnerPadding().top - childHeight;
+            childTop = getmSpinnerPadding().top + availableSpace / 2;
             break;
         case Gravity.BOTTOM:
-            childTop = myHeight - mSpinnerPadding.bottom - childHeight;
+            childTop = myHeight - getmSpinnerPadding().bottom - childHeight;
+            break;
+        default:
+            // silently skip
             break;
         }
         return childTop;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#onTouchEvent(android.view.MotionEvent)
+     */
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
@@ -1072,7 +1263,11 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * {@inheritDoc}
+     * On single tap up.
+     * 
+     * @param e
+     *            the e
+     * @return true, if successful {@inheritDoc}
      */
     @Override
     public boolean onSingleTapUp(final MotionEvent e) {
@@ -1080,13 +1275,13 @@ public class CoverFlow extends CoverAbsSpinner implements
         if (mDownTouchPosition >= 0) {
 
             // An item tap should make it selected, so scroll to this child.
-            scrollToChild(mDownTouchPosition - mFirstPosition);
+            scrollToChild(mDownTouchPosition - getmFirstPosition());
 
             // Also pass the click so the client knows, if it wants to.
             if (mShouldCallbackOnUnselectedItemClick
-                    || mDownTouchPosition == mSelectedPosition) {
+                    || mDownTouchPosition == getmSelectedPosition()) {
                 performItemClick(mDownTouchView, mDownTouchPosition,
-                        mAdapter.getItemId(mDownTouchPosition));
+                        getmAdapter().getItemId(mDownTouchPosition));
             }
 
             return true;
@@ -1096,7 +1291,17 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * {@inheritDoc}
+     * On fling.
+     * 
+     * @param e1
+     *            the e1
+     * @param e2
+     *            the e2
+     * @param velocityX
+     *            the velocity x
+     * @param velocityY
+     *            the velocity y
+     * @return true, if successful {@inheritDoc}
      */
     @Override
     public boolean onFling(final MotionEvent e1, final MotionEvent e2,
@@ -1121,13 +1326,23 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * {@inheritDoc}
+     * On scroll.
+     * 
+     * @param e1
+     *            the e1
+     * @param e2
+     *            the e2
+     * @param distanceX
+     *            the distance x
+     * @param distanceY
+     *            the distance y
+     * @return true, if successful {@inheritDoc}
      */
     @Override
     public boolean onScroll(final MotionEvent e1, final MotionEvent e2,
             final float distanceX, final float distanceY) {
 
-        if (localLOGV) {
+        if (LOCAL_LOGV) {
             Log.v(TAG, String.valueOf(e2.getX() - e1.getX()));
         }
 
@@ -1172,7 +1387,11 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * {@inheritDoc}
+     * On down.
+     * 
+     * @param e
+     *            the e
+     * @return true, if successful {@inheritDoc}
      */
     @Override
     public boolean onDown(final MotionEvent e) {
@@ -1184,7 +1403,8 @@ public class CoverFlow extends CoverAbsSpinner implements
         mDownTouchPosition = pointToPosition((int) e.getX(), (int) e.getY());
 
         if (mDownTouchPosition >= 0) {
-            mDownTouchView = getChildAt(mDownTouchPosition - mFirstPosition);
+            mDownTouchView = getChildAt(mDownTouchPosition
+                    - getmFirstPosition());
             mDownTouchView.setPressed(true);
         }
 
@@ -1215,7 +1435,10 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * {@inheritDoc}
+     * On long press.
+     * 
+     * @param e
+     *            the e {@inheritDoc}
      */
     @Override
     public void onLongPress(final MotionEvent e) {
@@ -1232,7 +1455,10 @@ public class CoverFlow extends CoverAbsSpinner implements
     // Unused methods from GestureDetector.OnGestureListener below
 
     /**
-     * {@inheritDoc}
+     * On show press.
+     * 
+     * @param e
+     *            the e {@inheritDoc}
      */
     @Override
     public void onShowPress(final MotionEvent e) {
@@ -1240,6 +1466,12 @@ public class CoverFlow extends CoverAbsSpinner implements
 
     // Unused methods from GestureDetector.OnGestureListener above
 
+    /**
+     * Dispatch press.
+     * 
+     * @param child
+     *            the child
+     */
     private void dispatchPress(final View child) {
 
         if (child != null) {
@@ -1249,6 +1481,9 @@ public class CoverFlow extends CoverAbsSpinner implements
         setPressed(true);
     }
 
+    /**
+     * Dispatch unpress.
+     */
     private void dispatchUnpress() {
 
         for (int i = getChildCount() - 1; i >= 0; i--) {
@@ -1258,6 +1493,11 @@ public class CoverFlow extends CoverAbsSpinner implements
         setPressed(false);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#dispatchSetSelected(boolean)
+     */
     @Override
     public void dispatchSetSelected(final boolean selected) {
         /*
@@ -1267,6 +1507,11 @@ public class CoverFlow extends CoverAbsSpinner implements
          */
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#dispatchSetPressed(boolean)
+     */
     @Override
     protected void dispatchSetPressed(final boolean pressed) {
 
@@ -1276,11 +1521,21 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#getContextMenuInfo()
+     */
     @Override
     protected ContextMenuInfo getContextMenuInfo() {
         return mContextMenuInfo;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#showContextMenuForChild(android.view.View)
+     */
     @Override
     public boolean showContextMenuForChild(final View originalView) {
 
@@ -1289,28 +1544,45 @@ public class CoverFlow extends CoverAbsSpinner implements
             return false;
         }
 
-        final long longPressId = mAdapter.getItemId(longPressPosition);
+        final long longPressId = getmAdapter().getItemId(longPressPosition);
         return dispatchLongPress(originalView, longPressPosition, longPressId);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#showContextMenu()
+     */
     @Override
     public boolean showContextMenu() {
 
-        if (isPressed() && mSelectedPosition >= 0) {
-            final int index = mSelectedPosition - mFirstPosition;
+        if (isPressed() && getmSelectedPosition() >= 0) {
+            final int index = getmSelectedPosition() - getmFirstPosition();
             final View v = getChildAt(index);
-            return dispatchLongPress(v, mSelectedPosition, mSelectedRowId);
+            return dispatchLongPress(v, getmSelectedPosition(),
+                    getmSelectedRowId());
         }
 
         return false;
     }
 
+    /**
+     * Dispatch long press.
+     * 
+     * @param view
+     *            the view
+     * @param position
+     *            the position
+     * @param id
+     *            the id
+     * @return true, if successful
+     */
     private boolean dispatchLongPress(final View view, final int position,
             final long id) {
         boolean handled = false;
 
-        if (mOnItemLongClickListener != null) {
-            handled = mOnItemLongClickListener.onItemLongClick(this,
+        if (getmOnItemLongClickListener() != null) {
+            handled = getmOnItemLongClickListener().onItemLongClick(this,
                     mDownTouchView, mDownTouchPosition, id);
         }
 
@@ -1326,6 +1598,11 @@ public class CoverFlow extends CoverAbsSpinner implements
         return handled;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#dispatchKeyEvent(android.view.KeyEvent)
+     */
     @Override
     public boolean dispatchKeyEvent(final KeyEvent event) {
         // Gallery steals all key events
@@ -1333,8 +1610,13 @@ public class CoverFlow extends CoverAbsSpinner implements
     }
 
     /**
-     * Handles left, right, and clicking
+     * Handles left, right, and clicking.
      * 
+     * @param keyCode
+     *            the key code
+     * @param event
+     *            the event
+     * @return true, if successful
      * @see android.view.View#onKeyDown
      */
     @Override
@@ -1357,19 +1639,27 @@ public class CoverFlow extends CoverAbsSpinner implements
         case KeyEvent.KEYCODE_ENTER:
             mReceivedInvokeKeyDown = true;
             // fallthrough to default handling
+        default:
+            // silently skip
+            break;
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#onKeyUp(int, android.view.KeyEvent)
+     */
     @Override
     public boolean onKeyUp(final int keyCode, final KeyEvent event) {
         switch (keyCode) {
         case KeyEvent.KEYCODE_DPAD_CENTER:
-        case KeyEvent.KEYCODE_ENTER: {
+        case KeyEvent.KEYCODE_ENTER:
 
             if (mReceivedInvokeKeyDown) {
-                if (mItemCount > 0) {
+                if (getmItemCount() > 0) {
 
                     dispatchPress(mSelectedChild);
                     postDelayed(new Runnable() {
@@ -1379,11 +1669,11 @@ public class CoverFlow extends CoverAbsSpinner implements
                         }
                     }, ViewConfiguration.getPressedStateDuration());
 
-                    final int selectedIndex = mSelectedPosition
-                            - mFirstPosition;
+                    final int selectedIndex = getmSelectedPosition()
+                            - getmFirstPosition();
                     performItemClick(getChildAt(selectedIndex),
-                            mSelectedPosition,
-                            mAdapter.getItemId(mSelectedPosition));
+                            getmSelectedPosition(),
+                            getmAdapter().getItemId(getmSelectedPosition()));
                 }
             }
 
@@ -1391,30 +1681,50 @@ public class CoverFlow extends CoverAbsSpinner implements
             mReceivedInvokeKeyDown = false;
 
             return true;
-        }
+
+        default:
+            // silently skip
+            break;
         }
 
         return super.onKeyUp(keyCode, event);
     }
 
+    /**
+     * Move previous.
+     * 
+     * @return true, if successful
+     */
     boolean movePrevious() {
-        if (mItemCount > 0 && mSelectedPosition > 0) {
-            scrollToChild(mSelectedPosition - mFirstPosition - 1);
+        if (getmItemCount() > 0 && getmSelectedPosition() > 0) {
+            scrollToChild(getmSelectedPosition() - getmFirstPosition() - 1);
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Move next.
+     * 
+     * @return true, if successful
+     */
     boolean moveNext() {
-        if (mItemCount > 0 && mSelectedPosition < mItemCount - 1) {
-            scrollToChild(mSelectedPosition - mFirstPosition + 1);
+        if (getmItemCount() > 0 && getmSelectedPosition() < getmItemCount() - 1) {
+            scrollToChild(getmSelectedPosition() - getmFirstPosition() + 1);
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Scroll to child.
+     * 
+     * @param childPosition
+     *            the child position
+     * @return true, if successful
+     */
     private boolean scrollToChild(final int childPosition) {
         final View child = getChildAt(childPosition);
 
@@ -1427,6 +1737,11 @@ public class CoverFlow extends CoverAbsSpinner implements
         return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.CoverAdapterView#setSelectedPositionInt(int)
+     */
     @Override
     void setSelectedPositionInt(final int position) {
         super.setSelectedPositionInt(position);
@@ -1435,12 +1750,15 @@ public class CoverFlow extends CoverAbsSpinner implements
         updateSelectedItemMetadata();
     }
 
+    /**
+     * Update selected item metadata.
+     */
     private void updateSelectedItemMetadata() {
 
         final View oldSelectedChild = mSelectedChild;
-
-        final View child = mSelectedChild = getChildAt(mSelectedPosition
-                - mFirstPosition);
+        mSelectedChild = getChildAt(getmSelectedPosition()
+                - getmFirstPosition());
+        final View child = mSelectedChild;
         if (child == null) {
             return;
         }
@@ -1470,7 +1788,7 @@ public class CoverFlow extends CoverAbsSpinner implements
      * Describes how the child views are aligned.
      * 
      * @param gravity
-     * 
+     *            the new gravity
      * @attr ref android.R.styleable#Gallery_gravity
      */
     public void setGravity(final int gravity) {
@@ -1480,9 +1798,14 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#getChildDrawingOrder(int, int)
+     */
     @Override
     protected int getChildDrawingOrder(final int childCount, final int i) {
-        final int selectedIndex = mSelectedPosition - mFirstPosition;
+        final int selectedIndex = getmSelectedPosition() - getmFirstPosition();
 
         // Just to be safe
         if (selectedIndex < 0) {
@@ -1501,6 +1824,12 @@ public class CoverFlow extends CoverAbsSpinner implements
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#onFocusChanged(boolean, int,
+     * android.graphics.Rect)
+     */
     @Override
     protected void onFocusChanged(final boolean gainFocus, final int direction,
             final Rect previouslyFocusedRect) {
@@ -1524,25 +1853,34 @@ public class CoverFlow extends CoverAbsSpinner implements
      * 
      */
     private class FlingRunnable implements Runnable {
-        /**
-         * Tracks the decay of a fling scroll
-         */
+
+        /** Tracks the decay of a fling scroll. */
         private final Scroller mScroller;
 
-        /**
-         * X value reported by mScroller on the previous fling
-         */
+        /** X value reported by mScroller on the previous fling. */
         private int mLastFlingX;
 
+        /**
+         * Instantiates a new fling runnable.
+         */
         public FlingRunnable() {
             mScroller = new Scroller(getContext());
         }
 
+        /**
+         * Start common.
+         */
         private void startCommon() {
             // Remove any pending flings
             removeCallbacks(this);
         }
 
+        /**
+         * Start using velocity.
+         * 
+         * @param initialVelocity
+         *            the initial velocity
+         */
         public void startUsingVelocity(final int initialVelocity) {
             if (initialVelocity == 0) {
                 return;
@@ -1557,6 +1895,12 @@ public class CoverFlow extends CoverAbsSpinner implements
             post(this);
         }
 
+        /**
+         * Start using distance.
+         * 
+         * @param distance
+         *            the distance
+         */
         public void startUsingDistance(final int distance) {
             if (distance == 0) {
                 return;
@@ -1569,11 +1913,23 @@ public class CoverFlow extends CoverAbsSpinner implements
             post(this);
         }
 
+        /**
+         * Stop.
+         * 
+         * @param scrollIntoSlots
+         *            the scroll into slots
+         */
         public void stop(final boolean scrollIntoSlots) {
             removeCallbacks(this);
             endFling(scrollIntoSlots);
         }
 
+        /**
+         * End fling.
+         * 
+         * @param scrollIntoSlots
+         *            the scroll into slots
+         */
         private void endFling(final boolean scrollIntoSlots) {
             /*
              * Force the scroller's status to finished (without setting its
@@ -1586,10 +1942,15 @@ public class CoverFlow extends CoverAbsSpinner implements
             }
         }
 
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Runnable#run()
+         */
         @Override
         public void run() {
 
-            if (mItemCount == 0) {
+            if (getmItemCount() == 0) {
                 endFling(true);
                 return;
             }
@@ -1607,7 +1968,7 @@ public class CoverFlow extends CoverAbsSpinner implements
             // Pretend that each frame of a fling scroll is a touch scroll
             if (delta > 0) {
                 // Moving towards the left. Use first view as mDownTouchPosition
-                mDownTouchPosition = mFirstPosition;
+                mDownTouchPosition = getmFirstPosition();
 
                 // Don't fling more than 1 screen
                 delta = Math.min(getWidth() - getPaddingLeft()
@@ -1615,7 +1976,7 @@ public class CoverFlow extends CoverAbsSpinner implements
             } else {
                 // Moving towards the right. Use last view as mDownTouchPosition
                 final int offsetToLast = getChildCount() - 1;
-                mDownTouchPosition = mFirstPosition + offsetToLast;
+                mDownTouchPosition = getmFirstPosition() + offsetToLast;
 
                 // Don't fling more than 1 screen
                 delta = Math.max(-(getWidth() - getPaddingRight()
@@ -1641,14 +2002,37 @@ public class CoverFlow extends CoverAbsSpinner implements
      * 
      */
     public static class LayoutParams extends ViewGroup.LayoutParams {
+
+        /**
+         * Instantiates a new layout params.
+         * 
+         * @param c
+         *            the c
+         * @param attrs
+         *            the attrs
+         */
         public LayoutParams(final Context c, final AttributeSet attrs) {
             super(c, attrs);
         }
 
+        /**
+         * Instantiates a new layout params.
+         * 
+         * @param w
+         *            the w
+         * @param h
+         *            the h
+         */
         public LayoutParams(final int w, final int h) {
             super(w, h);
         }
 
+        /**
+         * Instantiates a new layout params.
+         * 
+         * @param source
+         *            the source
+         */
         public LayoutParams(final ViewGroup.LayoutParams source) {
             super(source);
         }

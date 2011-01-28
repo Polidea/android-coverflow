@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
+// TODO: Auto-generated Javadoc
 /**
  * This class is an adapter that provides images from a fixed set of resource
  * ids. Bitmaps and ImageViews are kept as weak references so that they can be
@@ -17,20 +18,28 @@ import android.util.Log;
  * 
  */
 public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
+
+    /** The Constant TAG. */
     private static final String TAG = ResourceImageAdapter.class
             .getSimpleName();
 
+    /** The Constant DEFAULT_LIST_SIZE. */
     private static final int DEFAULT_LIST_SIZE = 20;
+
+    /** The Constant IMAGE_RESOURCE_IDS. */
     private static final List<Integer> IMAGE_RESOURCE_IDS = new ArrayList<Integer>(
             DEFAULT_LIST_SIZE);
+
+    /** The Constant DEFAULT_RESOURCE_LIST. */
     private static final int[] DEFAULT_RESOURCE_LIST = { R.drawable.image01,
             R.drawable.image02, R.drawable.image03, R.drawable.image04,
             R.drawable.image05 };
 
+    /** The bitmap map. */
     private final HashMap<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
 
     /**
-     * Creates the adapter with default set of resource images
+     * Creates the adapter with default set of resource images.
      * 
      * @param context
      *            context
@@ -46,7 +55,7 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
      * @param resourceIds
      *            array of ids of resources.
      */
-    public synchronized final void setResources(final int resourceIds[]) {
+    public final synchronized void setResources(final int[] resourceIds) {
         IMAGE_RESOURCE_IDS.clear();
         for (final int resourceId : resourceIds) {
             IMAGE_RESOURCE_IDS.add(resourceId);
@@ -54,11 +63,21 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
         notifyDataSetChanged();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.widget.Adapter#getCount()
+     */
     @Override
     public synchronized int getCount() {
         return IMAGE_RESOURCE_IDS.size();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see pl.polidea.coverflow.AbstractCoverFlowImageAdapter#createBitmap(int)
+     */
     @Override
     protected Bitmap createBitmap(final int position) {
         Log.v(TAG, "creating item " + position);

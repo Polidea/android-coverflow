@@ -24,25 +24,235 @@ import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.Adapter;
-import android.widget.Gallery;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Spinner;
 
 /**
- * An AdapterView is a view whose children are determined by an {@link Adapter}.
+ * An AdapterView is a view whose children are determined by an Adapter.
  * 
  * <p>
- * See {@link ListView}, {@link GridView}, {@link Spinner} and {@link Gallery}
- * for commonly used subclasses of AdapterView.
+ * See ListView, GridView, Spinner and Gallery for commonly used subclasses of
+ * AdapterView.
+ * 
+ * @param <T>
+ *            the generic type
  */
 public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
+
+    public int getmFirstPosition() {
+        return mFirstPosition;
+    }
+
+    public void setmFirstPosition(final int mFirstPosition) {
+        this.mFirstPosition = mFirstPosition;
+    }
+
+    public int getmSpecificTop() {
+        return mSpecificTop;
+    }
+
+    public void setmSpecificTop(final int mSpecificTop) {
+        this.mSpecificTop = mSpecificTop;
+    }
+
+    public int getmSyncPosition() {
+        return mSyncPosition;
+    }
+
+    public void setmSyncPosition(final int mSyncPosition) {
+        this.mSyncPosition = mSyncPosition;
+    }
+
+    public long getmSyncRowId() {
+        return mSyncRowId;
+    }
+
+    public void setmSyncRowId(final long mSyncRowId) {
+        this.mSyncRowId = mSyncRowId;
+    }
+
+    public long getmSyncHeight() {
+        return mSyncHeight;
+    }
+
+    public void setmSyncHeight(final long mSyncHeight) {
+        this.mSyncHeight = mSyncHeight;
+    }
+
+    public boolean ismNeedSync() {
+        return mNeedSync;
+    }
+
+    public void setmNeedSync(final boolean mNeedSync) {
+        this.mNeedSync = mNeedSync;
+    }
+
+    public int getmSyncMode() {
+        return mSyncMode;
+    }
+
+    public void setmSyncMode(final int mSyncMode) {
+        this.mSyncMode = mSyncMode;
+    }
+
+    public int getmLayoutHeight() {
+        return mLayoutHeight;
+    }
+
+    public void setmLayoutHeight(final int mLayoutHeight) {
+        this.mLayoutHeight = mLayoutHeight;
+    }
+
+    public boolean ismInLayout() {
+        return mInLayout;
+    }
+
+    public void setmInLayout(final boolean mInLayout) {
+        this.mInLayout = mInLayout;
+    }
+
+    public OnItemSelectedListener getmOnItemSelectedListener() {
+        return mOnItemSelectedListener;
+    }
+
+    public void setmOnItemSelectedListener(
+            final OnItemSelectedListener mOnItemSelectedListener) {
+        this.mOnItemSelectedListener = mOnItemSelectedListener;
+    }
+
+    public OnItemClickListener getmOnItemClickListener() {
+        return mOnItemClickListener;
+    }
+
+    public void setmOnItemClickListener(
+            final OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+    public OnItemLongClickListener getmOnItemLongClickListener() {
+        return mOnItemLongClickListener;
+    }
+
+    public void setmOnItemLongClickListener(
+            final OnItemLongClickListener mOnItemLongClickListener) {
+        this.mOnItemLongClickListener = mOnItemLongClickListener;
+    }
+
+    public boolean ismDataChanged() {
+        return mDataChanged;
+    }
+
+    public void setmDataChanged(final boolean mDataChanged) {
+        this.mDataChanged = mDataChanged;
+    }
+
+    public int getmNextSelectedPosition() {
+        return mNextSelectedPosition;
+    }
+
+    public void setmNextSelectedPosition(final int mNextSelectedPosition) {
+        this.mNextSelectedPosition = mNextSelectedPosition;
+    }
+
+    public long getmNextSelectedRowId() {
+        return mNextSelectedRowId;
+    }
+
+    public void setmNextSelectedRowId(final long mNextSelectedRowId) {
+        this.mNextSelectedRowId = mNextSelectedRowId;
+    }
+
+    public int getmSelectedPosition() {
+        return mSelectedPosition;
+    }
+
+    public void setmSelectedPosition(final int mSelectedPosition) {
+        this.mSelectedPosition = mSelectedPosition;
+    }
+
+    public long getmSelectedRowId() {
+        return mSelectedRowId;
+    }
+
+    public void setmSelectedRowId(final long mSelectedRowId) {
+        this.mSelectedRowId = mSelectedRowId;
+    }
+
+    public View getmEmptyView() {
+        return mEmptyView;
+    }
+
+    public void setmEmptyView(final View mEmptyView) {
+        this.mEmptyView = mEmptyView;
+    }
+
+    public int getmItemCount() {
+        return mItemCount;
+    }
+
+    public void setmItemCount(final int mItemCount) {
+        this.mItemCount = mItemCount;
+    }
+
+    public int getmOldItemCount() {
+        return mOldItemCount;
+    }
+
+    public void setmOldItemCount(final int mOldItemCount) {
+        this.mOldItemCount = mOldItemCount;
+    }
+
+    public int getmOldSelectedPosition() {
+        return mOldSelectedPosition;
+    }
+
+    public void setmOldSelectedPosition(final int mOldSelectedPosition) {
+        this.mOldSelectedPosition = mOldSelectedPosition;
+    }
+
+    public long getmOldSelectedRowId() {
+        return mOldSelectedRowId;
+    }
+
+    public void setmOldSelectedRowId(final long mOldSelectedRowId) {
+        this.mOldSelectedRowId = mOldSelectedRowId;
+    }
+
+    public boolean ismDesiredFocusableState() {
+        return mDesiredFocusableState;
+    }
+
+    public void setmDesiredFocusableState(final boolean mDesiredFocusableState) {
+        this.mDesiredFocusableState = mDesiredFocusableState;
+    }
+
+    public boolean ismDesiredFocusableInTouchModeState() {
+        return mDesiredFocusableInTouchModeState;
+    }
+
+    public void setmDesiredFocusableInTouchModeState(
+            final boolean mDesiredFocusableInTouchModeState) {
+        this.mDesiredFocusableInTouchModeState = mDesiredFocusableInTouchModeState;
+    }
+
+    public SelectionNotifier getmSelectionNotifier() {
+        return mSelectionNotifier;
+    }
+
+    public void setmSelectionNotifier(final SelectionNotifier mSelectionNotifier) {
+        this.mSelectionNotifier = mSelectionNotifier;
+    }
+
+    public boolean ismBlockLayoutRequests() {
+        return mBlockLayoutRequests;
+    }
+
+    public void setmBlockLayoutRequests(final boolean mBlockLayoutRequests) {
+        this.mBlockLayoutRequests = mBlockLayoutRequests;
+    }
 
     /**
      * The item view type returned by {@link Adapter#getItemViewType(int)} when
@@ -56,129 +266,109 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     public static final int ITEM_VIEW_TYPE_HEADER_OR_FOOTER = -2;
 
-    /**
-     * The position of the first child displayed
-     */
+    /** The position of the first child displayed. */
     @ViewDebug.ExportedProperty
-    int mFirstPosition = 0;
+    private int mFirstPosition = 0;
 
     /**
      * The offset in pixels from the top of the AdapterView to the top of the
      * view to select during the next layout.
      */
-    int mSpecificTop;
+    private int mSpecificTop;
 
-    /**
-     * Position from which to start looking for mSyncRowId
-     */
-    int mSyncPosition;
+    /** Position from which to start looking for mSyncRowId. */
+    private int mSyncPosition;
 
-    /**
-     * Row id to look for when data has changed
-     */
-    long mSyncRowId = INVALID_ROW_ID;
+    /** Row id to look for when data has changed. */
+    private long mSyncRowId = INVALID_ROW_ID;
 
-    /**
-     * Height of the view when mSyncPosition and mSyncRowId where set
-     */
-    long mSyncHeight;
+    /** Height of the view when mSyncPosition and mSyncRowId where set. */
+    private long mSyncHeight;
 
-    /**
-     * True if we need to sync to mSyncRowId
-     */
-    boolean mNeedSync = false;
+    /** True if we need to sync to mSyncRowId. */
+    private boolean mNeedSync = false;
 
     /**
      * Indicates whether to sync based on the selection or position. Possible
      * values are {@link #SYNC_SELECTED_POSITION} or
      * {@link #SYNC_FIRST_POSITION}.
      */
-    int mSyncMode;
+    private int mSyncMode;
 
-    /**
-     * Our height after the last layout
-     */
+    /** Our height after the last layout. */
     private int mLayoutHeight;
 
-    /**
-     * Sync based on the selected child
-     */
+    /** Sync based on the selected child. */
     static final int SYNC_SELECTED_POSITION = 0;
 
-    /**
-     * Sync based on the first child displayed
-     */
+    /** Sync based on the first child displayed. */
     static final int SYNC_FIRST_POSITION = 1;
 
-    /**
-     * Maximum amount of time to spend in {@link #findSyncPosition()}
-     */
+    /** Maximum amount of time to spend in {@link #findSyncPosition()}. */
     static final int SYNC_MAX_DURATION_MILLIS = 100;
 
     /**
      * Indicates that this view is currently being laid out.
      */
-    boolean mInLayout = false;
+    private boolean mInLayout = false;
 
     /**
      * The listener that receives notifications when an item is selected.
      */
-    OnItemSelectedListener mOnItemSelectedListener;
+    private OnItemSelectedListener mOnItemSelectedListener;
 
     /**
      * The listener that receives notifications when an item is clicked.
      */
-    OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener mOnItemClickListener;
 
     /**
      * The listener that receives notifications when an item is long clicked.
      */
-    OnItemLongClickListener mOnItemLongClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
-    /**
-     * True if the data has changed since the last layout
-     */
-    boolean mDataChanged;
+    /** True if the data has changed since the last layout. */
+    private boolean mDataChanged;
 
     /**
      * The position within the adapter's data set of the item to select during
      * the next layout.
      */
     @ViewDebug.ExportedProperty
-    int mNextSelectedPosition = INVALID_POSITION;
+    private int mNextSelectedPosition = INVALID_POSITION;
 
     /**
      * The item id of the item to select during the next layout.
      */
-    long mNextSelectedRowId = INVALID_ROW_ID;
+    private long mNextSelectedRowId = INVALID_ROW_ID;
 
     /**
      * The position within the adapter's data set of the currently selected
      * item.
      */
     @ViewDebug.ExportedProperty
-    int mSelectedPosition = INVALID_POSITION;
+    private int mSelectedPosition = INVALID_POSITION;
 
     /**
      * The item id of the currently selected item.
      */
-    long mSelectedRowId = INVALID_ROW_ID;
+    private long mSelectedRowId = INVALID_ROW_ID;
 
     /**
      * View to show if there are no items to show.
      */
-    View mEmptyView;
+    private View mEmptyView;
 
     /**
      * The number of items in the current adapter.
      */
     @ViewDebug.ExportedProperty
-    int mItemCount;
+    private int mItemCount;
 
     /**
      * The number of items in the adapter before a data changed event occured.
      */
-    int mOldItemCount;
+    private int mOldItemCount;
 
     /**
      * Represents an invalid position. All valid positions are in the range 0 to
@@ -186,20 +376,14 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     public static final int INVALID_POSITION = -1;
 
-    /**
-     * Represents an empty or invalid row id
-     */
+    /** Represents an empty or invalid row id. */
     public static final long INVALID_ROW_ID = Long.MIN_VALUE;
 
-    /**
-     * The last selected position we used when notifying
-     */
-    int mOldSelectedPosition = INVALID_POSITION;
+    /** The last selected position we used when notifying. */
+    private int mOldSelectedPosition = INVALID_POSITION;
 
-    /**
-     * The id of the last selected position we used when notifying
-     */
-    long mOldSelectedRowId = INVALID_ROW_ID;
+    /** The id of the last selected position we used when notifying. */
+    private long mOldSelectedRowId = INVALID_ROW_ID;
 
     /**
      * Indicates what focusable state is requested when calling setFocusable().
@@ -211,24 +395,51 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @see #checkFocus()
      */
     private boolean mDesiredFocusableState;
+
+    /** The m desired focusable in touch mode state. */
     private boolean mDesiredFocusableInTouchModeState;
 
+    /** The m selection notifier. */
     private SelectionNotifier mSelectionNotifier;
     /**
      * When set to true, calls to requestLayout() will not propagate up the
      * parent hierarchy. This is used to layout the children during a layout
      * pass.
      */
-    boolean mBlockLayoutRequests = false;
+    private boolean mBlockLayoutRequests = false;
 
+    /**
+     * Instantiates a new cover adapter view.
+     * 
+     * @param context
+     *            the context
+     */
     public CoverAdapterView(final Context context) {
         super(context);
     }
 
+    /**
+     * Instantiates a new cover adapter view.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     */
     public CoverAdapterView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /**
+     * Instantiates a new cover adapter view.
+     * 
+     * @param context
+     *            the context
+     * @param attrs
+     *            the attrs
+     * @param defStyle
+     *            the def style
+     */
     public CoverAdapterView(final Context context, final AttributeSet attrs,
             final int defStyle) {
         super(context, attrs, defStyle);
@@ -237,6 +448,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     /**
      * Interface definition for a callback to be invoked when an item in this
      * AdapterView has been clicked.
+     * 
+     * @see OnItemClickEvent
      */
     public interface OnItemClickListener {
 
@@ -270,15 +483,17 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *            The callback that will be invoked.
      */
     public void setOnItemClickListener(final OnItemClickListener listener) {
-        mOnItemClickListener = listener;
+        setmOnItemClickListener(listener);
     }
 
     /**
+     * Gets the on item click listener.
+     * 
      * @return The callback to be invoked with an item in this AdapterView has
      *         been clicked, or null id no callback has been set.
      */
     public final OnItemClickListener getOnItemClickListener() {
-        return mOnItemClickListener;
+        return getmOnItemClickListener();
     }
 
     /**
@@ -295,9 +510,9 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     public boolean performItemClick(final View view, final int position,
             final long id) {
-        if (mOnItemClickListener != null) {
+        if (getmOnItemClickListener() != null) {
             playSoundEffect(SoundEffectConstants.CLICK);
-            mOnItemClickListener.onItemClick(this, view, position, id);
+            getmOnItemClickListener().onItemClick(this, view, position, id);
             return true;
         }
 
@@ -307,6 +522,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     /**
      * Interface definition for a callback to be invoked when an item in this
      * view has been clicked and held.
+     * 
+     * @see OnItemLongClickEvent
      */
     public interface OnItemLongClickListener {
         /**
@@ -333,7 +550,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
 
     /**
      * Register a callback to be invoked when an item in this AdapterView has
-     * been clicked and held
+     * been clicked and held.
      * 
      * @param listener
      *            The callback that will run
@@ -343,20 +560,24 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         if (!isLongClickable()) {
             setLongClickable(true);
         }
-        mOnItemLongClickListener = listener;
+        setmOnItemLongClickListener(listener);
     }
 
     /**
+     * Gets the on item long click listener.
+     * 
      * @return The callback to be invoked with an item in this AdapterView has
      *         been clicked and held, or null id no callback as been set.
      */
     public final OnItemLongClickListener getOnItemLongClickListener() {
-        return mOnItemLongClickListener;
+        return getmOnItemLongClickListener();
     }
 
     /**
      * Interface definition for a callback to be invoked when an item in this
      * view has been selected.
+     * 
+     * @see OnItemSelectedEvent
      */
     public interface OnItemSelectedListener {
         /**
@@ -397,45 +618,85 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *            The callback that will run
      */
     public void setOnItemSelectedListener(final OnItemSelectedListener listener) {
-        mOnItemSelectedListener = listener;
-    }
-
-    public final OnItemSelectedListener getOnItemSelectedListener() {
-        return mOnItemSelectedListener;
+        setmOnItemSelectedListener(listener);
     }
 
     /**
-     * Extra menu information provided to the
-     * {@link android.view.View.OnCreateContextMenuListener#onCreateContextMenu(ContextMenu, View, ContextMenuInfo) }
-     * callback when a context menu is brought up for this AdapterView.
+     * Gets the on item selected listener.
      * 
+     * @return the on item selected listener
+     */
+    public final OnItemSelectedListener getOnItemSelectedListener() {
+        return getmOnItemSelectedListener();
+    }
+
+    /**
+     * Extra menu information provided to the.
+     * 
+     * android.view.View.OnCreateContextMenuListener#onCreateContextMenu(
+     * ContextMenu, View, ContextMenuInfo) callback when a context menu is
+     * brought up for this AdapterView.
      */
     public static class AdapterContextMenuInfo implements
             ContextMenu.ContextMenuInfo {
 
+        /**
+         * Instantiates a new adapter context menu info.
+         * 
+         * @param targetView
+         *            the target view
+         * @param position
+         *            the position
+         * @param id
+         *            the id
+         */
         public AdapterContextMenuInfo(final View targetView,
                 final int position, final long id) {
+            this.setTargetView(targetView);
+            this.setPosition(position);
+            this.setId(id);
+        }
+
+        public void setTargetView(final View targetView) {
             this.targetView = targetView;
+        }
+
+        public View getTargetView() {
+            return targetView;
+        }
+
+        public void setPosition(final int position) {
             this.position = position;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setId(final long id) {
             this.id = id;
+        }
+
+        public long getId() {
+            return id;
         }
 
         /**
          * The child view for which the context menu is being displayed. This
          * will be one of the children of this AdapterView.
          */
-        public View targetView;
+        private View targetView;
 
         /**
          * The position in the adapter for which the context menu is being
          * displayed.
          */
-        public int position;
+        private int position;
 
         /**
          * The row id of the item for which the context menu is being displayed.
          */
-        public long id;
+        private long id;
     }
 
     /**
@@ -460,9 +721,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * 
      * @param child
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void addView(final View child) {
@@ -478,9 +736,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *            Ignored.
      * @param index
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void addView(final View child, final int index) {
@@ -496,9 +751,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *            Ignored.
      * @param params
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void addView(final View child, final LayoutParams params) {
@@ -516,9 +768,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *            Ignored.
      * @param params
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void addView(final View child, final int index,
@@ -534,9 +783,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * 
      * @param child
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void removeView(final View child) {
@@ -550,9 +796,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * 
      * @param index
      *            Ignored.
-     * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void removeViewAt(final int index) {
@@ -564,8 +807,6 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * This method is not supported and throws an UnsupportedOperationException
      * when called.
      * 
-     * @throws UnsupportedOperationException
-     *             Every time this method is invoked.
      */
     @Override
     public void removeAllViews() {
@@ -573,40 +814,51 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
                 "removeAllViews() is not supported in AdapterView");
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#onLayout(boolean, int, int, int, int)
+     */
     @Override
     protected void onLayout(final boolean changed, final int left,
             final int top, final int right, final int bottom) {
-        mLayoutHeight = getHeight();
+        setmLayoutHeight(getHeight());
     }
 
     /**
      * Return the position of the currently selected item within the adapter's
-     * data set
+     * data set.
      * 
      * @return int Position (starting at 0), or {@link #INVALID_POSITION} if
      *         there is nothing selected.
      */
     // @ViewDebug.CapturedViewProperty
     public int getSelectedItemPosition() {
-        return mNextSelectedPosition;
+        return getmNextSelectedPosition();
     }
 
     /**
+     * Gets the selected item id.
+     * 
      * @return The id corresponding to the currently selected item, or
      *         {@link #INVALID_ROW_ID} if nothing is selected.
      */
     // @ViewDebug.CapturedViewProperty
     public long getSelectedItemId() {
-        return mNextSelectedRowId;
+        return getmNextSelectedRowId();
     }
 
     /**
+     * Gets the selected view.
+     * 
      * @return The view corresponding to the currently selected item, or null if
      *         nothing is selected
      */
     public abstract View getSelectedView();
 
     /**
+     * Gets the selected item.
+     * 
      * @return The data corresponding to the currently selected item, or null if
      *         there is nothing selected.
      */
@@ -621,13 +873,15 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     }
 
     /**
+     * Gets the count.
+     * 
      * @return The number of items owned by the Adapter associated with this
      *         AdapterView. (This is the number of data items, which may be
      *         larger than the number of visible view.)
      */
     // @ViewDebug.CapturedViewProperty
     public int getCount() {
-        return mItemCount;
+        return getmItemCount();
     }
 
     /**
@@ -644,9 +898,10 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     public int getPositionForView(final View view) {
         View listItem = view;
         try {
-            View v;
-            while (!(v = (View) listItem.getParent()).equals(this)) {
+            View v = (View) listItem.getParent();
+            while (!v.equals(this)) {
                 listItem = v;
+                v = (View) listItem.getParent();
             }
         } catch (final ClassCastException e) {
             // We made it up to the window without find this list view
@@ -657,7 +912,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             if (getChildAt(i).equals(listItem)) {
-                return mFirstPosition + i;
+                return getmFirstPosition() + i;
             }
         }
 
@@ -672,7 +927,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @return The position within the adapter's data set
      */
     public int getFirstVisiblePosition() {
-        return mFirstPosition;
+        return getmFirstPosition();
     }
 
     /**
@@ -682,11 +937,11 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @return The position within the adapter's data set
      */
     public int getLastVisiblePosition() {
-        return mFirstPosition + getChildCount() - 1;
+        return getmFirstPosition() + getChildCount() - 1;
     }
 
     /**
-     * Sets the currently selected item
+     * Sets the currently selected item.
      * 
      * @param position
      *            Index (starting at 0) of the data item to be selected.
@@ -694,13 +949,16 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     public abstract void setSelection(int position);
 
     /**
-     * Sets the view to show if the adapter is empty
+     * Sets the view to show if the adapter is empty.
+     * 
+     * @param emptyView
+     *            the new empty view
      */
     public void setEmptyView(final View emptyView) {
-        mEmptyView = emptyView;
+        setmEmptyView(emptyView);
 
         final T adapter = getAdapter();
-        final boolean empty = ((adapter == null) || adapter.isEmpty());
+        final boolean empty = adapter == null || adapter.isEmpty();
         updateEmptyStatus(empty);
     }
 
@@ -712,7 +970,7 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * @return The view to show if the adapter is empty.
      */
     public View getEmptyView() {
-        return mEmptyView;
+        return getmEmptyView();
     }
 
     /**
@@ -725,6 +983,11 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#setFocusable(boolean)
+     */
     @Override
     public void setFocusable(final boolean focusable) {
         final T adapter = getAdapter();
@@ -738,6 +1001,11 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         super.setFocusable(focusable && (!empty || isInFilterMode()));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.View#setFocusableInTouchMode(boolean)
+     */
     @Override
     public void setFocusableInTouchMode(final boolean focusable) {
         final T adapter = getAdapter();
@@ -751,6 +1019,9 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         super.setFocusableInTouchMode(focusable && (!empty || isInFilterMode()));
     }
 
+    /**
+     * Check focus.
+     */
     void checkFocus() {
         final T adapter = getAdapter();
         final boolean empty = adapter == null || adapter.getCount() == 0;
@@ -762,8 +1033,8 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         super.setFocusableInTouchMode(focusable
                 && mDesiredFocusableInTouchModeState);
         super.setFocusable(focusable && mDesiredFocusableState);
-        if (mEmptyView != null) {
-            updateEmptyStatus((adapter == null) || adapter.isEmpty());
+        if (getmEmptyView() != null) {
+            updateEmptyStatus(adapter == null || adapter.isEmpty());
         }
     }
 
@@ -772,15 +1043,19 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      * true and we have an empty view, display it. In all the other cases, make
      * sure that the listview is VISIBLE and that the empty view is GONE (if
      * it's not null).
+     * 
+     * @param empty
+     *            the empty
      */
-    private void updateEmptyStatus(boolean empty) {
+    private void updateEmptyStatus(final boolean emptyParam) {
+        boolean empty = emptyParam;
         if (isInFilterMode()) {
             empty = false;
         }
 
         if (empty) {
-            if (mEmptyView != null) {
-                mEmptyView.setVisibility(View.VISIBLE);
+            if (getmEmptyView() != null) {
+                getmEmptyView().setVisibility(View.VISIBLE);
                 setVisibility(View.GONE);
             } else {
                 // If the caller just removed our empty view, make sure the list
@@ -791,13 +1066,13 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             // We are now GONE, so pending layouts will not be dispatched.
             // Force one here to make sure that the state of the list matches
             // the state of the adapter.
-            if (mDataChanged) {
+            if (ismDataChanged()) {
                 this.onLayout(false, getLeft(), getTop(), getRight(),
                         getBottom());
             }
         } else {
-            if (mEmptyView != null) {
-                mEmptyView.setVisibility(View.GONE);
+            if (getmEmptyView() != null) {
+                getmEmptyView().setVisibility(View.GONE);
             }
             setVisibility(View.VISIBLE);
         }
@@ -812,16 +1087,29 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     public Object getItemAtPosition(final int position) {
         final T adapter = getAdapter();
-        return (adapter == null || position < 0) ? null : adapter
+        return adapter == null || position < 0 ? null : adapter
                 .getItem(position);
     }
 
+    /**
+     * Gets the item id at position.
+     * 
+     * @param position
+     *            the position
+     * @return the item id at position
+     */
     public long getItemIdAtPosition(final int position) {
         final T adapter = getAdapter();
-        return (adapter == null || position < 0) ? INVALID_ROW_ID : adapter
+        return adapter == null || position < 0 ? INVALID_ROW_ID : adapter
                 .getItemId(position);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * android.view.View#setOnClickListener(android.view.View.OnClickListener)
+     */
     @Override
     public void setOnClickListener(final OnClickListener l) {
         throw new RuntimeException(
@@ -831,6 +1119,9 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
 
     /**
      * Override to prevent freezing of any views created by the adapter.
+     * 
+     * @param container
+     *            the container
      */
     @Override
     protected void dispatchSaveInstanceState(
@@ -840,6 +1131,9 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
 
     /**
      * Override to prevent thawing of any views created by the adapter.
+     * 
+     * @param container
+     *            the container
      */
     @Override
     protected void dispatchRestoreInstanceState(
@@ -847,22 +1141,32 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         dispatchThawSelfOnly(container);
     }
 
+    /**
+     * An asynchronous update interface for receiving notifications about
+     * AdapterDataSet information as the AdapterDataSet is constructed.
+     */
     class AdapterDataSetObserver extends DataSetObserver {
 
+        /** The m instance state. */
         private Parcelable mInstanceState = null;
 
+        /*
+         * (non-Javadoc)
+         * 
+         * @see android.database.DataSetObserver#onChanged()
+         */
         @Override
         public void onChanged() {
-            mDataChanged = true;
-            mOldItemCount = mItemCount;
-            mItemCount = getAdapter().getCount();
+            setmDataChanged(true);
+            setmOldItemCount(getmItemCount());
+            setmItemCount(getAdapter().getCount());
 
             // Detect the case where a cursor that was previously invalidated
             // has
             // been repopulated with new data.
             if (CoverAdapterView.this.getAdapter().hasStableIds()
-                    && mInstanceState != null && mOldItemCount == 0
-                    && mItemCount > 0) {
+                    && mInstanceState != null && getmOldItemCount() == 0
+                    && getmItemCount() > 0) {
                 CoverAdapterView.this.onRestoreInstanceState(mInstanceState);
                 mInstanceState = null;
             } else {
@@ -872,9 +1176,14 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             requestLayout();
         }
 
+        /*
+         * (non-Javadoc)
+         * 
+         * @see android.database.DataSetObserver#onInvalidated()
+         */
         @Override
         public void onInvalidated() {
-            mDataChanged = true;
+            setmDataChanged(true);
 
             if (CoverAdapterView.this.getAdapter().hasStableIds()) {
                 // Remember the current state for the case where our hosting
@@ -884,27 +1193,42 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             }
 
             // Data is invalid so we should reset our state
-            mOldItemCount = mItemCount;
-            mItemCount = 0;
-            mSelectedPosition = INVALID_POSITION;
-            mSelectedRowId = INVALID_ROW_ID;
-            mNextSelectedPosition = INVALID_POSITION;
-            mNextSelectedRowId = INVALID_ROW_ID;
-            mNeedSync = false;
+            setmOldItemCount(getmItemCount());
+            setmItemCount(0);
+            setmSelectedPosition(INVALID_POSITION);
+            setmSelectedRowId(INVALID_ROW_ID);
+            setmNextSelectedPosition(INVALID_POSITION);
+            setmNextSelectedRowId(INVALID_ROW_ID);
+            setmNeedSync(false);
             checkSelectionChanged();
 
             checkFocus();
             requestLayout();
         }
 
+        /**
+         * This method is called when information about an AdapterDataSet which
+         * was previously requested using an asynchronous interface becomes
+         * available.
+         */
         public void clearSavedState() {
             mInstanceState = null;
         }
     }
 
+    /**
+     * The Class SelectionNotifier.
+     */
     private class SelectionNotifier extends Handler implements Runnable {
+
+        /*
+         * (non-Javadoc)
+         * 
+         * @see java.lang.Runnable#run()
+         */
+        @Override
         public void run() {
-            if (mDataChanged) {
+            if (ismDataChanged()) {
                 // Data has changed between when this SelectionNotifier
                 // was posted and now. We need to wait until the AdapterView
                 // has been synched to the new data.
@@ -915,9 +1239,12 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         }
     }
 
+    /**
+     * Selection changed.
+     */
     void selectionChanged() {
-        if (mOnItemSelectedListener != null) {
-            if (mInLayout || mBlockLayoutRequests) {
+        if (getmOnItemSelectedListener() != null) {
+            if (ismInLayout() || ismBlockLayoutRequests()) {
                 // If we are in a layout traversal, defer notification
                 // by posting. This ensures that the view tree is
                 // in a consistent state and is able to accomodate
@@ -932,28 +1259,39 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         }
     }
 
+    /**
+     * Fire on selected.
+     */
     private void fireOnSelected() {
-        if (mOnItemSelectedListener == null) {
+        if (getmOnItemSelectedListener() == null) {
             return;
         }
 
         final int selection = this.getSelectedItemPosition();
         if (selection >= 0) {
             final View v = getSelectedView();
-            mOnItemSelectedListener.onItemSelected(this, v, selection,
+            getmOnItemSelectedListener().onItemSelected(this, v, selection,
                     getAdapter().getItemId(selection));
         } else {
-            mOnItemSelectedListener.onNothingSelected(this);
+            getmOnItemSelectedListener().onNothingSelected(this);
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.view.ViewGroup#canAnimate()
+     */
     @Override
     protected boolean canAnimate() {
-        return super.canAnimate() && mItemCount > 0;
+        return super.canAnimate() && getmItemCount() > 0;
     }
 
+    /**
+     * Handle data changed.
+     */
     void handleDataChanged() {
-        final int count = mItemCount;
+        final int count = getmItemCount();
         boolean found = false;
 
         if (count > 0) {
@@ -961,10 +1299,10 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
             int newPos;
 
             // Find the row we are supposed to sync to
-            if (mNeedSync) {
+            if (ismNeedSync()) {
                 // Update this first, since setNextSelectedPositionInt inspects
                 // it
-                mNeedSync = false;
+                setmNeedSync(false);
 
                 // See if we can find a position in the new data with the same
                 // id as the old selection
@@ -1007,21 +1345,24 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
         }
         if (!found) {
             // Nothing is selected
-            mSelectedPosition = INVALID_POSITION;
-            mSelectedRowId = INVALID_ROW_ID;
-            mNextSelectedPosition = INVALID_POSITION;
-            mNextSelectedRowId = INVALID_ROW_ID;
-            mNeedSync = false;
+            setmSelectedPosition(INVALID_POSITION);
+            setmSelectedRowId(INVALID_ROW_ID);
+            setmNextSelectedPosition(INVALID_POSITION);
+            setmNextSelectedRowId(INVALID_ROW_ID);
+            setmNeedSync(false);
             checkSelectionChanged();
         }
     }
 
+    /**
+     * Check selection changed.
+     */
     void checkSelectionChanged() {
-        if ((mSelectedPosition != mOldSelectedPosition)
-                || (mSelectedRowId != mOldSelectedRowId)) {
+        if (getmSelectedPosition() != getmOldSelectedPosition()
+                || getmSelectedRowId() != getmOldSelectedRowId()) {
             selectionChanged();
-            mOldSelectedPosition = mSelectedPosition;
-            mOldSelectedRowId = mSelectedRowId;
+            setmOldSelectedPosition(getmSelectedPosition());
+            setmOldSelectedRowId(getmSelectedRowId());
         }
     }
 
@@ -1035,14 +1376,14 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      *         {@link #INVALID_POSITION} if it can't be found
      */
     int findSyncPosition() {
-        final int count = mItemCount;
+        final int count = getmItemCount();
 
         if (count == 0) {
             return INVALID_POSITION;
         }
 
-        final long idToMatch = mSyncRowId;
-        int seed = mSyncPosition;
+        final long idToMatch = getmSyncRowId();
+        int seed = getmSyncPosition();
 
         // If there isn't a selection don't hunt for it
         if (idToMatch == INVALID_ROW_ID) {
@@ -1095,13 +1436,13 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
                 break;
             }
 
-            if (hitFirst || (next && !hitLast)) {
+            if (hitFirst || next && !hitLast) {
                 // Either we hit the top, or we are trying to move down
                 last++;
                 seed = last;
                 // Try going up next time
                 next = false;
-            } else if (hitLast || (!next && !hitFirst)) {
+            } else if (hitLast || !next && !hitFirst) {
                 // Either we hit the bottom, or we are trying to move up
                 first--;
                 seed = first;
@@ -1130,30 +1471,31 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
     }
 
     /**
-     * Utility to keep mSelectedPosition and mSelectedRowId in sync
+     * Utility to keep mSelectedPosition and mSelectedRowId in sync.
      * 
      * @param position
      *            Our current position
      */
     void setSelectedPositionInt(final int position) {
-        mSelectedPosition = position;
-        mSelectedRowId = getItemIdAtPosition(position);
+        setmSelectedPosition(position);
+        setmSelectedRowId(getItemIdAtPosition(position));
     }
 
     /**
-     * Utility to keep mNextSelectedPosition and mNextSelectedRowId in sync
+     * Utility to keep mNextSelectedPosition and mNextSelectedRowId in sync.
      * 
      * @param position
      *            Intended value for mSelectedPosition the next time we go
      *            through layout
      */
     void setNextSelectedPositionInt(final int position) {
-        mNextSelectedPosition = position;
-        mNextSelectedRowId = getItemIdAtPosition(position);
+        setmNextSelectedPosition(position);
+        setmNextSelectedRowId(getItemIdAtPosition(position));
         // If we are trying to sync to the selection, update that too
-        if (mNeedSync && mSyncMode == SYNC_SELECTED_POSITION && position >= 0) {
-            mSyncPosition = position;
-            mSyncRowId = mNextSelectedRowId;
+        if (ismNeedSync() && getmSyncMode() == SYNC_SELECTED_POSITION
+                && position >= 0) {
+            setmSyncPosition(position);
+            setmSyncRowId(getmNextSelectedRowId());
         }
     }
 
@@ -1164,31 +1506,33 @@ public abstract class CoverAdapterView<T extends Adapter> extends ViewGroup {
      */
     void rememberSyncState() {
         if (getChildCount() > 0) {
-            mNeedSync = true;
-            mSyncHeight = mLayoutHeight;
-            if (mSelectedPosition >= 0) {
+            setmNeedSync(true);
+            setmSyncHeight(getmLayoutHeight());
+            if (getmSelectedPosition() >= 0) {
                 // Sync the selection state
-                final View v = getChildAt(mSelectedPosition - mFirstPosition);
-                mSyncRowId = mNextSelectedRowId;
-                mSyncPosition = mNextSelectedPosition;
+                final View v = getChildAt(getmSelectedPosition()
+                        - getmFirstPosition());
+                setmSyncRowId(getmNextSelectedRowId());
+                setmSyncPosition(getmNextSelectedPosition());
                 if (v != null) {
-                    mSpecificTop = v.getTop();
+                    setmSpecificTop(v.getTop());
                 }
-                mSyncMode = SYNC_SELECTED_POSITION;
+                setmSyncMode(SYNC_SELECTED_POSITION);
             } else {
                 // Sync the based on the offset of the first view
                 final View v = getChildAt(0);
                 final T adapter = getAdapter();
-                if (mFirstPosition >= 0 && mFirstPosition < adapter.getCount()) {
-                    mSyncRowId = adapter.getItemId(mFirstPosition);
+                if (getmFirstPosition() >= 0
+                        && getmFirstPosition() < adapter.getCount()) {
+                    setmSyncRowId(adapter.getItemId(getmFirstPosition()));
                 } else {
-                    mSyncRowId = NO_ID;
+                    setmSyncRowId(NO_ID);
                 }
-                mSyncPosition = mFirstPosition;
+                setmSyncPosition(getmFirstPosition());
                 if (v != null) {
-                    mSpecificTop = v.getTop();
+                    setmSpecificTop(v.getTop());
                 }
-                mSyncMode = SYNC_FIRST_POSITION;
+                setmSyncMode(SYNC_FIRST_POSITION);
             }
         }
     }
