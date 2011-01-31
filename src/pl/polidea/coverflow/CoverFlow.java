@@ -31,25 +31,29 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.SpinnerAdapter;
 
+/**
+ * Cover Flow implementation.
+ * 
+ */
 public class CoverFlow extends Gallery {
 
     /**
-     * Graphics Camera used for transforming the matrix of ImageViews
+     * Graphics Camera used for transforming the matrix of ImageViews.
      */
     private final Camera mCamera = new Camera();
 
     /**
-     * The maximum angle the Child ImageView will be rotated by
+     * The maximum angle the Child ImageView will be rotated by.
      */
     private int mMaxRotationAngle = 60;
 
     /**
-     * The maximum zoom on the centre Child
+     * The maximum zoom on the centre Child.
      */
     private int mMaxZoom = -120;
 
     /**
-     * The Centre of the Coverflow
+     * The Centre of the Coverflow.
      */
     private int mCoveflowCenter;
 
@@ -180,7 +184,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Get the max rotational angle of the image
+     * Get the max rotational angle of the image.
      * 
      * @return the mMaxRotationAngle
      */
@@ -218,7 +222,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Set the max rotational angle of each image
+     * Set the max rotational angle of each image.
      * 
      * @param maxRotationAngle
      *            the mMaxRotationAngle to set
@@ -228,7 +232,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Get the Max zoom of the centre image
+     * Get the Max zoom of the centre image.
      * 
      * @return the mMaxZoom
      */
@@ -237,7 +241,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Set the max zoom of the centre image
+     * Set the max zoom of the centre image.
      * 
      * @param maxZoom
      *            the mMaxZoom to set
@@ -247,7 +251,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Get the Centre of the Coverflow
+     * Get the Centre of the Coverflow.
      * 
      * @return The centre of this Coverflow.
      */
@@ -257,7 +261,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Get the Centre of the View
+     * Get the Centre of the View.
      * 
      * @return The centre of the given view.
      */
@@ -318,7 +322,7 @@ public class CoverFlow extends Gallery {
     }
 
     /**
-     * Transform the Image Bitmap by the Angle passed
+     * Transform the Image Bitmap by the Angle passed.
      * 
      * @param imageView
      *            ImageView the ImageView whose bitmap we want to rotate
@@ -331,10 +335,10 @@ public class CoverFlow extends Gallery {
             final Transformation t, final int rotationAngle) {
         mCamera.save();
         final Matrix imageMatrix = t.getMatrix();
-        ;
-        final int imageHeight = child.getLayoutParams().height;
-        ;
-        final int imageWidth = child.getLayoutParams().width;
+
+        final int height = child.getLayoutParams().height;
+
+        final int width = child.getLayoutParams().width;
         final int rotation = Math.abs(rotationAngle);
 
         mCamera.translate(0.0f, 0.0f, 100.0f);
@@ -347,8 +351,8 @@ public class CoverFlow extends Gallery {
 
         mCamera.rotateY(rotationAngle);
         mCamera.getMatrix(imageMatrix);
-        imageMatrix.preTranslate(-(imageWidth / 2), -(imageHeight / 2));
-        imageMatrix.postTranslate((imageWidth / 2), (imageHeight / 2));
+        imageMatrix.preTranslate(-(width / 2.0f), -(height / 2.0f));
+        imageMatrix.postTranslate((width / 2.0f), (height / 2.0f));
         mCamera.restore();
     }
 
