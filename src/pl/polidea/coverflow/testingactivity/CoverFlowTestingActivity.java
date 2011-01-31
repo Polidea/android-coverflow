@@ -1,6 +1,5 @@
 package pl.polidea.coverflow.testingactivity;
 
-import pl.polidea.coverflow.AbstractCoverAdapterView;
 import pl.polidea.coverflow.CoverFlow;
 import pl.polidea.coverflow.R;
 import pl.polidea.coverflow.ReflectingImageAdapter;
@@ -8,8 +7,11 @@ import pl.polidea.coverflow.ResourceImageAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 /**
  * The Class CoverFlowTestingActivity.
@@ -17,7 +19,10 @@ import android.widget.Toast;
 public class CoverFlowTestingActivity extends Activity {
 
     /** The toast. */
-    private Toast toast;
+    private CoverFlow coverFlow1;
+    private CoverFlow reflectingCoverFlow;
+
+    TextView textView;
 
     /*
      * (non-Javadoc)
@@ -29,15 +34,15 @@ public class CoverFlowTestingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
+        textView = (TextView) findViewById(this.getResources()
+                .getIdentifier("statusText", "id", "pl.polidea.coverflow"));
         // note resources below are taken using getIdentifier to allow importing
         // this library as library.
-        final CoverFlow mCoverFlow = (CoverFlow) findViewById(this
-                .getResources().getIdentifier("coverflow", "id",
-                        "pl.polidea.coverflow"));
-        setupCoverFlow(mCoverFlow, false);
-        final CoverFlow reflectingCoverFlow = (CoverFlow) findViewById(this
-                .getResources().getIdentifier("coverflowReflect", "id",
-                        "pl.polidea.coverflow"));
+        coverFlow1 = (CoverFlow) findViewById(this.getResources().getIdentifier("coverflow", "id",
+                "pl.polidea.coverflow"));
+        setupCoverFlow(coverFlow1, false);
+        reflectingCoverFlow = (CoverFlow) findViewById(this.getResources().getIdentifier("coverflowReflect", "id",
+                "pl.polidea.coverflow"));
         setupCoverFlow(reflectingCoverFlow, true);
     }
 
@@ -49,12 +54,10 @@ public class CoverFlowTestingActivity extends Activity {
      * @param reflect
      *            the reflect
      */
-    private void setupCoverFlow(final CoverFlow mCoverFlow,
-            final boolean reflect) {
-        SpinnerAdapter coverImageAdapter = null;
+    private void setupCoverFlow(final CoverFlow mCoverFlow, final boolean reflect) {
+        BaseAdapter coverImageAdapter;
         if (reflect) {
-            coverImageAdapter = new ReflectingImageAdapter(this,
-                    new ResourceImageAdapter(this));
+            coverImageAdapter = new ReflectingImageAdapter(new ResourceImageAdapter(this));
         } else {
             coverImageAdapter = new ResourceImageAdapter(this);
         }
@@ -70,56 +73,24 @@ public class CoverFlowTestingActivity extends Activity {
      *            the new up listeners
      */
     private void setupListeners(final CoverFlow mCoverFlow) {
-        mCoverFlow
-                .setOnItemClickListener(new AbstractCoverAdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(
-                            final AbstractCoverAdapterView< ? > parent,
-                            final View view, final int position, final long id) {
-                        final CharSequence text = "Item clicked! : " + id;
-                        final int duration = Toast.LENGTH_SHORT;
-                        clearToast();
-                        toast = Toast.makeText(CoverFlowTestingActivity.this,
-                                text, duration);
-                        toast.show();
-                    }
+        mCoverFlow.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView< ? > parent, final View view, final int position, final long id) {
+                textView.setText("Item clicked! : " + id);
+            }
 
-                });
-        mCoverFlow
-                .setOnItemSelectedListener(new AbstractCoverAdapterView.OnItemSelectedListener() {
+        });
+        mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView< ? > parent, final View view, final int position, final long id) {
+                textView.setText("Item selected! : " + id);
+            }
 
-                    @Override
-                    public void onItemSelected(
-                            final AbstractCoverAdapterView< ? > parent,
-                            final View view, final int position, final long id) {
-                        final CharSequence text = "Item selected! : " + id;
-                        final int duration = Toast.LENGTH_SHORT;
-                        clearToast();
-                        toast = Toast.makeText(CoverFlowTestingActivity.this,
-                                text, duration);
-                        toast.show();
-                    }
-
-                    @Override
-                    public void onNothingSelected(
-                            final AbstractCoverAdapterView< ? > parent) {
-                        final CharSequence text = "Nothing clicked!";
-                        final int duration = Toast.LENGTH_SHORT;
-                        clearToast();
-                        toast = Toast.makeText(CoverFlowTestingActivity.this,
-                                text, duration);
-                        toast.show();
-                    }
-                });
-    }
-
-    /**
-     * Clear toast.
-     */
-    protected void clearToast() {
-        if (toast != null) {
-            toast.cancel();
-        }
+            @Override
+            public void onNothingSelected(final AdapterView< ? > parent) {
+                textView.setText("Nothing clicked!");
+            }
+        });
     }
 
 }

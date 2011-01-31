@@ -1,7 +1,6 @@
 package pl.polidea.coverflow;
 
 import android.R.color;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -20,21 +19,22 @@ import android.graphics.Shader.TileMode;
  * 
  */
 public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
-    
+
     /** The linked adapter. */
     private final AbstractCoverFlowImageAdapter linkedAdapter;
     /**
      * Gap between the image and its reflection.
      */
     private float reflectionGap;
-    
+
     /** The image reflection ratio. */
     private float imageReflectionRatio;
 
     /**
      * Sets the width ratio.
-     *
-     * @param imageReflectionRatio the new width ratio
+     * 
+     * @param imageReflectionRatio
+     *            the new width ratio
      */
     public void setWidthRatio(final float imageReflectionRatio) {
         this.imageReflectionRatio = imageReflectionRatio;
@@ -43,21 +43,20 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
     /**
      * Creates reflecting adapter.
      * 
-     * @param context
-     *            android context
      * @param linkedAdapter
      *            adapter that provides images to get reflections
      */
-    public ReflectingImageAdapter(final Context context,
+    public ReflectingImageAdapter(
             final AbstractCoverFlowImageAdapter linkedAdapter) {
-        super(context);
+        super();
         this.linkedAdapter = linkedAdapter;
     }
 
     /**
      * Sets the reflection gap.
-     *
-     * @param reflectionGap the new reflection gap
+     * 
+     * @param reflectionGap
+     *            the new reflection gap
      */
     public void setReflectionGap(final float reflectionGap) {
         this.reflectionGap = reflectionGap;
@@ -65,14 +64,16 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
 
     /**
      * Gets the reflection gap.
-     *
+     * 
      * @return the reflection gap
      */
     public float getReflectionGap() {
         return reflectionGap;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see pl.polidea.coverflow.AbstractCoverFlowImageAdapter#createBitmap(int)
      */
     @Override
@@ -82,8 +83,9 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
 
     /**
      * Creates the reflected images.
-     *
-     * @param originalImage the original image
+     * 
+     * @param originalImage
+     *            the original image
      * @return true, if successful
      */
     public Bitmap createReflectedImages(final Bitmap originalImage) {
@@ -113,7 +115,9 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
         return bitmapWithReflection;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see android.widget.Adapter#getCount()
      */
     @Override

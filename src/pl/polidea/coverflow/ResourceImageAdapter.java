@@ -38,6 +38,8 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
     /** The bitmap map. */
     private final Map<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
 
+    private final Context context;
+
     /**
      * Creates the adapter with default set of resource images.
      * 
@@ -45,7 +47,8 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
      *            context
      */
     public ResourceImageAdapter(final Context context) {
-        super(context);
+        super();
+        this.context = context;
         setResources(DEFAULT_RESOURCE_LIST);
     }
 
@@ -81,7 +84,7 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
     @Override
     protected Bitmap createBitmap(final int position) {
         Log.v(TAG, "creating item " + position);
-        final Bitmap bitmap = ((BitmapDrawable) getContext().getResources()
+        final Bitmap bitmap = ((BitmapDrawable) context.getResources()
                 .getDrawable(IMAGE_RESOURCE_IDS.get(position))).getBitmap();
         bitmapMap.put(position, new WeakReference<Bitmap>(bitmap));
         return bitmap;

@@ -20,11 +20,7 @@ import android.widget.ImageView;
 public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
 
     /** The Constant TAG. */
-    private static final String TAG = AbstractCoverFlowImageAdapter.class
-            .getSimpleName();
-
-    /** The context. */
-    private final Context context;
+    private static final String TAG = AbstractCoverFlowImageAdapter.class.getSimpleName();
 
     /** The width. */
     private float width = 0;
@@ -35,18 +31,8 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
     /** The bitmap map. */
     private final Map<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
 
-    /** The image view map. */
-    private final Map<Integer, WeakReference<ImageView>> imageViewMap = new HashMap<Integer, WeakReference<ImageView>>();
-
-    /**
-     * Craetes image adapter.
-     * 
-     * @param context
-     *            context of the view
-     */
-    public AbstractCoverFlowImageAdapter(final Context context) {
+    public AbstractCoverFlowImageAdapter() {
         super();
-        this.context = context;
     }
 
     /**
@@ -70,18 +56,21 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
     }
 
     @Override
-    public final synchronized Bitmap getItem(final int position) {
-        final WeakReference<Bitmap> weakBitmapReference = bitmapMap
-                .get(position);
+    public final Bitmap getItem(final int position) {
+        final WeakReference<Bitmap> weakBitmapReference = bitmapMap.get(position);
         if (weakBitmapReference != null) {
             final Bitmap bitmap = weakBitmapReference.get();
             if (bitmap != null) {
+                Log.v(TAG, "Reusing bitmap item at position: " + position + ":" + this);
                 return bitmap;
+            } else {
+                Log.v(TAG, "Empty bitmap reference at position: " + position + ":" + this);
             }
         }
-        Log.v(TAG, "retrieving item " + position);
+        Log.v(TAG, "Creating item at position: " + position + ":" + this);
         final Bitmap bitmap = createBitmap(position);
         bitmapMap.put(position, new WeakReference<Bitmap>(bitmap));
+        Log.v(TAG, "Created item at position: " + position + ":" + this);
         return bitmap;
     }
 
@@ -111,31 +100,18 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      * android.view.ViewGroup)
      */
     @Override
-    public final synchronized ImageView getView(final int position,
-            final View convertView, final ViewGroup parent) {
-        final WeakReference<ImageView> weakImageViewReference = imageViewMap
-                .get(position);
-        if (weakImageViewReference != null) {
-            final ImageView imageView = weakImageViewReference.get();
-            if (imageView != null) {
-                return imageView;
-            }
+    public final synchronized ImageView getView(final int position, final View convertView, final ViewGroup parent) {
+        final ImageView imageView;
+        if (convertView == null) {
+            final Context context = parent.getContext();
+            Log.v(TAG, "Creating Image view at position: " + position + ":" + this);
+            imageView = new ImageView(context);
+            imageView.setLayoutParams(new CoverFlow.LayoutParams((int) width, (int) height));
+        } else {
+            Log.v(TAG, "Reusing view at position: " + position + ":" + this);
+            imageView = (ImageView) convertView;
         }
-        Log.v(TAG, "getting item view " + position);
-        final ImageView imageView = new ImageView(context);
         imageView.setImageBitmap(getItem(position));
-        imageView.setLayoutParams(new CoverFlow.LayoutParams((int) width,
-                (int) height));
-        imageViewMap.put(position, new WeakReference<ImageView>(imageView));
         return imageView;
-    }
-
-    /**
-     * Retrieves context.
-     * 
-     * @return context
-     */
-    public Context getContext() {
-        return context;
     }
 }
