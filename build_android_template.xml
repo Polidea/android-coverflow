@@ -29,6 +29,7 @@
         <delete dir="bin" failonerror="false" />
         <delete dir="gen" failonerror="false" />
         <delete dir="javadoc" failonerror="false" />
+        <delete file="res/raw/config.properties" failonerror="false"/>
     </target>
 
     <taskdef name="setup" classname="com.android.ant.SetupTask" classpathref="android.antlibs" />
@@ -114,4 +115,55 @@
        </javadoc>
     </target>
 
+    <target name="clean-ota" depends="clean" description="Cleans ota directory">
+        <delete dir="ota"/>
+    </target>
+
+    <target name="prepare-configuration" description="Prepares configuration based on release.name property (release.name might be development, production, stealth)" if="release.name">
+        <copy todir="res/raw/">
+            <fileset dir="release/${release.name}" includes="*">
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="rename-release" description="Renames release apk's to the right ones depending on the release.name" if="release.name">
+        <mkdir dir="ota"/>
+        <mkdir dir="ota/${release.name}"/>
+        <copy todir="ota/${release.name}">
+            <fileset dir="bin">
+                <include name="*.apk"/>
+            </fileset>
+            <mapper type="glob" from="*.apk" to="${release.name}-*.apk">
+            </mapper>
+        </copy>
+    </target>
+
+    <target name="build-release" description="Builds single release (need to have release.name property defined)" if="release.name">
+        <antcall target="clean">
+        </antcall>
+        <antcall target="prepare-configuration">
+        </antcall>
+        <antcall target="build">
+        </antcall>
+        <antcall target="rename-release">
+        </antcall>
+    </target>
+
+    <target name="build-all-releases" description="Builds all standard releases">
+        <antcall target="build-release">
+            <param name="release.name" value="production"/>
+        </antcall>
+        <antcall target="build-release">
+            <param name="release.name" value="stealth"/>
+        </antcall>
+        <antcall target="build-release">
+            <param name="release.name" value="development"/>
+        </antcall>
+    </target>
+
+    <target name="build-dev-release" description="Builds only dev release">
+        <antcall target="build-release">
+            <param name="release.name" value="development"/>
+        </antcall>
+    </target>
 </project>

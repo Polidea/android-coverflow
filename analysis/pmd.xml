@@ -181,8 +181,9 @@
     <rule ref="rulesets/basic.xml/CheckResultSet" />
     <rule ref="rulesets/basic.xml/AvoidMultipleUnaryOperators" />
     <rule ref="rulesets/basic.xml/EmptyInitializer" />
-    <rule ref="rulesets/sunsecure.xml/MethodReturnsInternalArray" />
-    <rule ref="rulesets/sunsecure.xml/ArrayIsStoredDirectly" />
+    <!-- DISABLED because in case of mobile app it is much more important to get performance than security -->
+<!--    <rule ref="rulesets/sunsecure.xml/MethodReturnsInternalArray" />-->
+<!--    <rule ref="rulesets/sunsecure.xml/ArrayIsStoredDirectly" />-->
     <rule ref="rulesets/coupling.xml/CouplingBetweenObjects" />
     <rule ref="rulesets/coupling.xml/ExcessiveImports" />
     <rule ref="rulesets/coupling.xml/LooseCoupling" />
@@ -215,11 +216,11 @@
     <rule ref="rulesets/controversial.xml/CallSuperInConstructor" />
     <rule ref="rulesets/controversial.xml/UnnecessaryParentheses" />
     <!--    <rule ref="rulesets/controversial.xml/DefaultPackage"/>-->
-    <rule ref="rulesets/controversial.xml/BooleanInversion" />
+    <!--    <rule ref="rulesets/controversial.xml/BooleanInversion" />-->
     <!--
         <rule ref="rulesets/controversial.xml/DataflowAnomalyAnalysis" />
     -->
-    <rule ref="rulesets/controversial.xml/AvoidFinalLocalVariable" />
+    <!--    <rule ref="rulesets/controversial.xml/AvoidFinalLocalVariable" />-->
     <rule ref="rulesets/controversial.xml/AvoidUsingShortType" />
     <rule ref="rulesets/controversial.xml/AvoidUsingVolatile" />
     <rule ref="rulesets/controversial.xml/AvoidUsingNativeCode" />

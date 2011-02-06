@@ -2,7 +2,6 @@
 <!-- This file is part of Polidea build system.
      It is included in order to enable efficient project building using ant.
      DO NOT MODIFY THIS FILE without consulting Jarek.
-     V.1.1
       -->
 <project name="Android Manage template">
      <property file="project.properties" />
@@ -11,14 +10,16 @@
      <property file="build.properties" />
      <property file="default.properties" />
      <property name="bin.dir" location="bin" />
-     <property name="unsigned.apk.file" location="${bin.dir}/${project.apk.name}-unsigned.apk" />
-     <property name="signed.apk.file" location="${bin.dir}/${project.apk.name}-signed.apk" />
-     <property name="release.apk.file" location="${bin.dir}/${project.apk.name}-release.apk" />
-     <property name="apk.file" location="${bin.dir}/${project.apk.name}.apk" />
+     <property name="ota.dir" location="ota" />
+     <property name="unsigned.apk.file" value="${project.apk.name}-unsigned.apk" />
+     <property name="signed.apk.file" value="${project.apk.name}-signed.apk" />
+     <property name="release.apk.file" value="${project.apk.name}-release.apk" />
+     <property name="apk.file" value="${project.apk.name}.apk" />
      <property name="file.version" value="version.txt" />
      <property name="template.url.prefix" value="http://dev.polidea.pl/ext/polidea_templates/android-template/polidea_android_template/"/>
 
     <taskdef resource="net/sourceforge/ant4hg/taskdefs/antlib.xml" classpath="build-libs/ant4hg-V0.07.jar" />
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="build-libs/ant-contrib-1.0b3.jar" />
 
     <target name="delete-libraries">
         <!-- USE WITH CARE -->
@@ -44,7 +45,7 @@
     </target>
     <target name="checkout.lib.3" if="android.library.reference.3">
         <echo message="Checking out ${android.library.url.3}" />
-        <mkdir dir="${android.library.reference.1}" />
+        <mkdir dir="${android.library.reference.3}" />
         <hg cmd="clone" branch="${android.library.branch.3}" destination="${android.library.reference.3}" source="${android.library.url.3}" />
     </target>
     <target name="checkout.lib.4" if="android.library.reference.4">
@@ -83,7 +84,14 @@
         <replaceregexp file="${android.manifest.file}" match="android:versionCode.*=.*&quot;.*&quot;" replace="android:versionCode=&quot;${app.current.version.code}&quot;" byline="true" />
         <replaceregexp file="${android.manifest.file}" match="android:versionName.*=.*&quot;.*&quot;" replace="android:versionName=&quot;${env.RELEASE_VERSION}&quot;" byline="true" />
         <hg cmd="commit" dir="." message="Incrementing application version to ${env.RELEASE_VERSION} (${app.current.version.code})" user="${hg.user}" />
-        <hg cmd="push" dir="." />
+        <exec executable="hg"> <!-- no tag support in ant4hg :( -->
+            <arg value="tag"/>
+            <arg value="-u"/>
+            <arg value="${hg.user}"/>
+            <arg value="-f"/>
+            <arg value="Release_${env.RELEASE_VERSION}_${app.current.version.code}"/>
+        </exec>
+        <hg cmd="push" dir="." revision="default"/>
     </target>
 
     <!-- Note! They cannot be set at the top of the file because pre-release
@@ -120,27 +128,94 @@
          </zip>
       </target>
 
+    <target name="download-qrcode">
+        <urlencode property="url.encoded" value="${url}"/>
+        <get src="https://chart.googleapis.com/chart?cht=qr&amp;chs=128x128&amp;chl=${url.encoded}" dest="${qrcode.png.file}"/>
+    </target>
+
+
     <target name="post-release" description="--> performs post release operations" depends="setup.post-release.properties, javadoc-zip, sources-zip">
         <echo message="post-release" />
         <mkdir dir="${release.subdirectory.dir}" />
         <mkdir dir="${versioned.dir}" />
-        <copy file="${apk.file}" tofile="${bin.dir}/${apk.file.name}" />
-        <!--copy to release directory -->
-        <copy file="${apk.file}" tofile="${versioned.dir}/${apk.file.name}" />
-        <!--Print info to console log -->
+        <mkdir dir="${versioned.dir}/development" />
+        <mkdir dir="${versioned.dir}/stealth" />
+        <mkdir dir="${versioned.dir}/production" />
+        <copy file="${ota.dir}/development/development-${apk.file}" tofile="${versioned.dir}/development/development-${apk.file.name}" />
+        <copy file="${ota.dir}/stealth/stealth-${apk.file}" tofile="${versioned.dir}/stealth/stealth-${apk.file.name}" />
+        <copy file="${ota.dir}/production/production-${apk.file}" tofile="${versioned.dir}/production/production-${apk.file.name}" />
+        <property name="development.url" value="${release.url}${versioned.dir}/development/development-${apk.file.name}"/>
+        <property name="stealth.url" value="${release.url}${versioned.dir}/stealth/stealth-${apk.file.name}"/>
+        <property name="production.url" value="${release.url}${versioned.dir}/production/production-${apk.file.name}"/>
         <echo message="New release at:" />
-        <echo message="${release.url}${versioned.dir}/${apk.file.name}" />
-         <mail from="${from.release.mail}" tolist="${to.release.mail}" subject="${project.apk.name} released. Version ${env.RELEASE_VERSION}">
+        <echo message="${development.url}" />
+        <echo message="${stealth.url}" />
+        <echo message="${production.url}" />
+        <antcall target="download-qrcode">
+            <param name="url" value="${development.url}"/>
+            <param name="qrcode.png.file" value="${versioned.dir}/development/development-qrcode.png"/>
+        </antcall>
+        <antcall target="download-qrcode">
+            <param name="url" value="${stealth.url}"/>
+            <param name="qrcode.png.file" value="${versioned.dir}/stealth/stealth-qrcode.png"/>
+        </antcall>
+        <antcall target="download-qrcode">
+            <param name="url" value="${production.url}"/>
+            <param name="qrcode.png.file" value="${versioned.dir}/production/production-qrcode.png"/>
+        </antcall>
+        <mail from="${from.release.mail}" tolist="${to.release.mail}" subject="${project.apk.name} released. Version ${env.RELEASE_VERSION}">
             <message><![CDATA[Project ${project.apk.name} released version ${env.RELEASE_VERSION}.
 
-The application is available at ${release.url}${versioned.dir}/${apk.file.name}.
+The application is available here:
+   Development version: ${release.url}${versioned.dir}/development/development-${apk.file.name}
+   Stealth version: ${release.url}${versioned.dir}/stealth/stealth-${apk.file.name}
+   Production version: ${release.url}${versioned.dir}/production/production-${apk.file.name}
 
-Javadocs and sources are available in Hudson only (for security reason).
+Javadocs and sources are available in Jenkins only (for security reason).
 
 Have fun!
 
-Your Hudson.
+Your Jenkins.
 ]]></message>
+            <attachments>
+                <fileset dir="${versioned.dir}">
+                    <include name="*/*-qrcode.png"/>
+                </fileset>
+            </attachments>
+        </mail>
+    </target>
+
+
+    <target name="post-release-dev-only" description="--> performs post release operations" depends="setup.post-release.properties, javadoc-zip, sources-zip">
+        <echo message="post-release-dev-only" />
+        <mkdir dir="${release.subdirectory.dir}" />
+        <mkdir dir="${versioned.dir}" />
+        <mkdir dir="${versioned.dir}/development" />
+        <copy file="${ota.dir}/development/development-${apk.file}" tofile="${versioned.dir}/development/development-${apk.file.name}" />
+        <property name="development.url" value="${release.url}${versioned.dir}/development/development-${apk.file.name}"/>
+        <echo message="New release at:" />
+        <echo message="${development.url}" />
+        <antcall target="download-qrcode">
+            <param name="url" value="${development.url}"/>
+            <param name="qrcode.png.file" value="${versioned.dir}/development/development-qrcode.png"/>
+        </antcall>
+        <mail from="${from.release.mail}" tolist="${to.release.mail}" subject="${project.apk.name} released. Version ${env.RELEASE_VERSION}">
+            <message><![CDATA[Project ${project.apk.name} released version ${env.RELEASE_VERSION}.
+
+The application is available here:
+   Development version: ${release.url}${versioned.dir}/development/development-${apk.file.name}
+
+Javadocs and sources are available in Jenkins only (for security reason).
+
+Have fun!
+
+Your Jenkins.
+]]></message>
+            <attachments>
+                <fileset dir="${versioned.dir}">
+                    <include name="development/*-qrcode.png"/>
+                </fileset>
+            </attachments>
         </mail>
     </target>
 
@@ -156,6 +231,7 @@ Your Hudson.
     <target name="download.file">
         <get src="${template.url.prefix}${file}" dest="${file}" verbose="on"/>
     </target>
+
     <target name="update.templates" description="Updates all templates">
         <antcall target="download.file" ><param name="file" value="build_android_manage_template.xml"/></antcall>
         <!-- just to make sure even new files added to manage template are downloaded -->
@@ -167,11 +243,19 @@ Your Hudson.
         <mkdir dir="build-libs"/>
         <mkdir dir="cert"/>
         <mkdir dir="template"/>
+        <mkdir dir="release"/>
+        <mkdir dir="release/development"/>
+        <mkdir dir="release/stealth"/>
+        <mkdir dir="release/production"/>
         <antcall target="download.file" ><param name="file" value="analysis/checkstyle.xml"/></antcall>
         <antcall target="download.file" ><param name="file" value="analysis/findbugs_exclude.xml"/></antcall>
         <antcall target="download.file" ><param name="file" value="analysis/pmd.xml"/></antcall>
         <antcall target="download.file" ><param name="file" value="analysis/suppressions.xml"/></antcall>
         <antcall target="download.file" ><param name="file" value="build-libs/ant4hg-V0.07.jar"/></antcall>
+        <antcall target="download.file" ><param name="file" value="build-libs/ant-contrib-1.0b3.jar"/></antcall>
+        <antcall target="download.file" ><param name="file" value="release/development/config.properties"/></antcall>
+        <antcall target="download.file" ><param name="file" value="release/stealth/config.properties"/></antcall>
+        <antcall target="download.file" ><param name="file" value="release/production/config.properties"/></antcall>
         <antcall target="download.file" ><param name="file" value="cert/debug.keystore"/></antcall>
         <antcall target="download.file" ><param name="file" value="cert/default.keyset"/></antcall>
         <antcall target="download.file" ><param name="file" value="template/ant.properties"/></antcall>
