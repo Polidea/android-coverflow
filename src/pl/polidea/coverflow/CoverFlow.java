@@ -176,8 +176,7 @@ public class CoverFlow extends Gallery {
         this(context, attrs, android.R.attr.galleryStyle);
     }
 
-    public CoverFlow(final Context context, final AttributeSet attrs,
-            final int defStyle) {
+    public CoverFlow(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         parseAttributes(context, attrs);
         this.setStaticTransformationsEnabled(true);
@@ -201,16 +200,14 @@ public class CoverFlow extends Gallery {
     @Override
     public void setAdapter(final SpinnerAdapter adapter) {
         if (!(adapter instanceof AbstractCoverFlowImageAdapter)) {
-            throw new IllegalArgumentException(
-                    "The adapter should derive from "
-                            + AbstractCoverFlowImageAdapter.class.getName());
+            throw new IllegalArgumentException("The adapter should derive from "
+                    + AbstractCoverFlowImageAdapter.class.getName());
         }
         final AbstractCoverFlowImageAdapter coverAdapter = (AbstractCoverFlowImageAdapter) adapter;
         coverAdapter.setWidth(imageWidth);
         coverAdapter.setHeight(imageHeight);
         if (withReflection) {
-            final ReflectingImageAdapter reflectAdapter = new ReflectingImageAdapter(
-                    coverAdapter);
+            final ReflectingImageAdapter reflectAdapter = new ReflectingImageAdapter(coverAdapter);
             reflectAdapter.setReflectionGap(reflectionGap);
             reflectAdapter.setWidthRatio(imageReflectionRatio);
             reflectAdapter.setWidth(imageWidth);
@@ -256,8 +253,7 @@ public class CoverFlow extends Gallery {
      * @return The centre of this Coverflow.
      */
     private int getCenterOfCoverflow() {
-        return (getWidth() - getPaddingLeft() - getPaddingRight()) / 2
-                + getPaddingLeft();
+        return (getWidth() - getPaddingLeft() - getPaddingRight()) / 2 + getPaddingLeft();
     }
 
     /**
@@ -275,8 +271,7 @@ public class CoverFlow extends Gallery {
      * @see #setStaticTransformationsEnabled(boolean)
      */
     @Override
-    protected boolean getChildStaticTransformation(final View child,
-            final Transformation t) {
+    protected boolean getChildStaticTransformation(final View child, final Transformation t) {
 
         final int childCenter = getCenterOfView(child);
         final int childWidth = child.getWidth();
@@ -288,11 +283,9 @@ public class CoverFlow extends Gallery {
         if (childCenter == mCoveflowCenter) {
             transformImageBitmap((ImageView) child, t, 0);
         } else {
-            rotationAngle = (int) ((float) (mCoveflowCenter - childCenter)
-                    / childWidth * mMaxRotationAngle);
+            rotationAngle = (int) ((float) (mCoveflowCenter - childCenter) / childWidth * mMaxRotationAngle);
             if (Math.abs(rotationAngle) > mMaxRotationAngle) {
-                rotationAngle = rotationAngle < 0 ? -mMaxRotationAngle
-                        : mMaxRotationAngle;
+                rotationAngle = rotationAngle < 0 ? -mMaxRotationAngle : mMaxRotationAngle;
             }
             transformImageBitmap((ImageView) child, t, rotationAngle);
         }
@@ -315,8 +308,7 @@ public class CoverFlow extends Gallery {
      *            Old height of this view.
      */
     @Override
-    protected void onSizeChanged(final int w, final int h, final int oldw,
-            final int oldh) {
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         mCoveflowCenter = getCenterOfCoverflow();
         super.onSizeChanged(w, h, oldw, oldh);
     }
@@ -331,8 +323,7 @@ public class CoverFlow extends Gallery {
      * @param rotationAngle
      *            the Angle by which to rotate the Bitmap
      */
-    private void transformImageBitmap(final ImageView child,
-            final Transformation t, final int rotationAngle) {
+    private void transformImageBitmap(final ImageView child, final Transformation t, final int rotationAngle) {
         mCamera.save();
         final Matrix imageMatrix = t.getMatrix();
 
@@ -365,18 +356,13 @@ public class CoverFlow extends Gallery {
      *            the attrs
      */
     private void parseAttributes(final Context context, final AttributeSet attrs) {
-        final TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.CoverFlow);
+        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CoverFlow);
         try {
             imageWidth = a.getDimension(R.styleable.CoverFlow_imageWidth, 480);
-            imageHeight = a
-                    .getDimension(R.styleable.CoverFlow_imageHeight, 320);
-            withReflection = a.getBoolean(R.styleable.CoverFlow_withReflection,
-                    false);
-            imageReflectionRatio = a.getFloat(
-                    R.styleable.CoverFlow_imageReflectionRatio, 0.2f);
-            reflectionGap = a.getDimension(R.styleable.CoverFlow_reflectionGap,
-                    4);
+            imageHeight = a.getDimension(R.styleable.CoverFlow_imageHeight, 320);
+            withReflection = a.getBoolean(R.styleable.CoverFlow_withReflection, false);
+            imageReflectionRatio = a.getFloat(R.styleable.CoverFlow_imageReflectionRatio, 0.2f);
+            reflectionGap = a.getDimension(R.styleable.CoverFlow_reflectionGap, 4);
             setSpacing(-15);
         } finally {
             a.recycle();

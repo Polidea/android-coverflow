@@ -45,8 +45,7 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
      * @param linkedAdapter
      *            adapter that provides images to get reflections
      */
-    public ReflectingImageAdapter(
-            final AbstractCoverFlowImageAdapter linkedAdapter) {
+    public ReflectingImageAdapter(final AbstractCoverFlowImageAdapter linkedAdapter) {
         super();
         this.linkedAdapter = linkedAdapter;
     }
@@ -92,11 +91,9 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
         final int height = originalImage.getHeight();
         final Matrix matrix = new Matrix();
         matrix.preScale(1, -1);
-        final Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0,
-                (int) (height * imageReflectionRatio), width,
-                (int) (height - height * imageReflectionRatio), matrix, false);
-        final Bitmap bitmapWithReflection = Bitmap.createBitmap(width,
-                (int) (height + height * imageReflectionRatio),
+        final Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, (int) (height * imageReflectionRatio),
+                width, (int) (height - height * imageReflectionRatio), matrix, false);
+        final Bitmap bitmapWithReflection = Bitmap.createBitmap(width, (int) (height + height * imageReflectionRatio),
                 Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmapWithReflection);
         canvas.drawBitmap(originalImage, 0, 0, null);
@@ -104,13 +101,11 @@ public class ReflectingImageAdapter extends AbstractCoverFlowImageAdapter {
         deafaultPaint.setColor(color.transparent);
         canvas.drawBitmap(reflectionImage, 0, height + reflectionGap, null);
         final Paint paint = new Paint();
-        final LinearGradient shader = new LinearGradient(0,
-                originalImage.getHeight(), 0, bitmapWithReflection.getHeight()
-                        + reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
+        final LinearGradient shader = new LinearGradient(0, originalImage.getHeight(), 0,
+                bitmapWithReflection.getHeight() + reflectionGap, 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
         paint.setShader(shader);
         paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
-        canvas.drawRect(0, height, width, bitmapWithReflection.getHeight()
-                + reflectionGap, paint);
+        canvas.drawRect(0, height, width, bitmapWithReflection.getHeight() + reflectionGap, paint);
         return bitmapWithReflection;
     }
 

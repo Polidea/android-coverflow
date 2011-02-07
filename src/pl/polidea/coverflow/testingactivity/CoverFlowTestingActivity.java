@@ -30,17 +30,15 @@ public class CoverFlowTestingActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
-        textView = (TextView) findViewById(this.getResources().getIdentifier(
-                "statusText", "id", "pl.polidea.coverflow"));
+        textView = (TextView) findViewById(this.getResources()
+                .getIdentifier("statusText", "id", "pl.polidea.coverflow"));
         // note resources below are taken using getIdentifier to allow importing
         // this library as library.
-        final CoverFlow coverFlow1 = (CoverFlow) findViewById(this
-                .getResources().getIdentifier("coverflow", "id",
-                        "pl.polidea.coverflow"));
+        final CoverFlow coverFlow1 = (CoverFlow) findViewById(this.getResources().getIdentifier("coverflow", "id",
+                "pl.polidea.coverflow"));
         setupCoverFlow(coverFlow1, false);
-        final CoverFlow reflectingCoverFlow = (CoverFlow) findViewById(this
-                .getResources().getIdentifier("coverflowReflect", "id",
-                        "pl.polidea.coverflow"));
+        final CoverFlow reflectingCoverFlow = (CoverFlow) findViewById(this.getResources().getIdentifier(
+                "coverflowReflect", "id", "pl.polidea.coverflow"));
         setupCoverFlow(reflectingCoverFlow, true);
     }
 
@@ -52,12 +50,10 @@ public class CoverFlowTestingActivity extends Activity {
      * @param reflect
      *            the reflect
      */
-    private void setupCoverFlow(final CoverFlow mCoverFlow,
-            final boolean reflect) {
+    private void setupCoverFlow(final CoverFlow mCoverFlow, final boolean reflect) {
         BaseAdapter coverImageAdapter;
         if (reflect) {
-            coverImageAdapter = new ReflectingImageAdapter(
-                    new ResourceImageAdapter(this));
+            coverImageAdapter = new ReflectingImageAdapter(new ResourceImageAdapter(this));
         } else {
             coverImageAdapter = new ResourceImageAdapter(this);
         }
@@ -75,16 +71,14 @@ public class CoverFlowTestingActivity extends Activity {
     private void setupListeners(final CoverFlow mCoverFlow) {
         mCoverFlow.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(final AdapterView< ? > parent,
-                    final View view, final int position, final long id) {
+            public void onItemClick(final AdapterView< ? > parent, final View view, final int position, final long id) {
                 textView.setText("Item clicked! : " + id);
             }
 
         });
         mCoverFlow.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
-            public void onItemSelected(final AdapterView< ? > parent,
-                    final View view, final int position, final long id) {
+            public void onItemSelected(final AdapterView< ? > parent, final View view, final int position, final long id) {
                 textView.setText("Item selected! : " + id);
             }
 

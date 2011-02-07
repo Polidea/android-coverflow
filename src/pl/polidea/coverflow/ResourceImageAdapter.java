@@ -20,20 +20,17 @@ import android.util.Log;
 public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
 
     /** The Constant TAG. */
-    private static final String TAG = ResourceImageAdapter.class
-            .getSimpleName();
+    private static final String TAG = ResourceImageAdapter.class.getSimpleName();
 
     /** The Constant DEFAULT_LIST_SIZE. */
     private static final int DEFAULT_LIST_SIZE = 20;
 
     /** The Constant IMAGE_RESOURCE_IDS. */
-    private static final List<Integer> IMAGE_RESOURCE_IDS = new ArrayList<Integer>(
-            DEFAULT_LIST_SIZE);
+    private static final List<Integer> IMAGE_RESOURCE_IDS = new ArrayList<Integer>(DEFAULT_LIST_SIZE);
 
     /** The Constant DEFAULT_RESOURCE_LIST. */
-    private static final int[] DEFAULT_RESOURCE_LIST = { R.drawable.image01,
-            R.drawable.image02, R.drawable.image03, R.drawable.image04,
-            R.drawable.image05 };
+    private static final int[] DEFAULT_RESOURCE_LIST = { R.drawable.image01, R.drawable.image02, R.drawable.image03,
+            R.drawable.image04, R.drawable.image05 };
 
     /** The bitmap map. */
     private final Map<Integer, WeakReference<Bitmap>> bitmapMap = new HashMap<Integer, WeakReference<Bitmap>>();
@@ -84,8 +81,8 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
     @Override
     protected Bitmap createBitmap(final int position) {
         Log.v(TAG, "creating item " + position);
-        final Bitmap bitmap = ((BitmapDrawable) context.getResources()
-                .getDrawable(IMAGE_RESOURCE_IDS.get(position))).getBitmap();
+        final Bitmap bitmap = ((BitmapDrawable) context.getResources().getDrawable(IMAGE_RESOURCE_IDS.get(position)))
+                .getBitmap();
         bitmapMap.put(position, new WeakReference<Bitmap>(bitmap));
         return bitmap;
     }
