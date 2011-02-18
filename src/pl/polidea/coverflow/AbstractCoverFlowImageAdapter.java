@@ -114,4 +114,5 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
         imageView.setImageBitmap(getItem(position));
         return imageView;
     }
+
 }
