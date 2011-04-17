@@ -1,14 +1,32 @@
 syntax: regexp
 ^local\.properties$
 syntax: regexp
-^reports$
+^bin$
 syntax: regexp
-^ZumiAndroid\.apk$
+^coverage$
+syntax: regexp
+^tmpcoverage$
+syntax: regexp
+^gen/junit$
+syntax: regexp
+^gen/.*\.xml$
+syntax: regexp
+^javadoc$
 syntax: regexp
 ^gen$
 syntax: regexp
-^bin$
+^outinstr$
 syntax: regexp
-^\.settings$
+^test/bin$
 syntax: regexp
-^javadoc$
+^res/raw/.*config.properties$
+syntax:glob
+test/local.properties
+local.properties
+test/coverage
+test/tmpcoverage
+test/bin
+syntax: regexp
+\.pyc$
+syntax: regexp
+^ota/.*$
