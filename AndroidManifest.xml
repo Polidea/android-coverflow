@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="pl.polidea.coverflow"
-      android:versionCode="6"
-      android:versionName="1.6">
-    <application android:label="@string/app_name" android:icon="@drawable/icon">
-        <activity android:name=".testingactivity.CoverFlowTestingActivity"
-                  android:label="@string/app_name">
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="7" android:versionName="TEST_RELEASE" package="pl.polidea.coverflow">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:label="@string/app_name" android:name=".testingactivity.CoverFlowTestingActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>
