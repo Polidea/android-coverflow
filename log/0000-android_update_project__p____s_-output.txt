@@ -1,0 +1,2 @@
+Updated local.properties
+Updated file ./proguard.cfg
