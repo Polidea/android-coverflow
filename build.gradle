@@ -1,25 +1,16 @@
 buildscript {
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    }
     repositories {
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
         mavenLocal()
         mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
     }
+    def flowVer = System.getProperty('flow.version') ?: System.getenv('FLOW_VERSION') ?: '1.+'
+    println "Using Apphance Flow version: $flowVer"
     dependencies {
-        classpath ('com.apphance.ameba:Ameba:0.99.6')
+        classpath("com.apphance.flow:apphance-flow:$flowVer")
     }
 }
 
-apply plugin: 'ameba-project-configuration'
-apply plugin: 'ameba-android-build'
-apply plugin: 'ameba-project-release'
-apply plugin: 'ameba-android-release'
-//apply plugin: 'ameba-android-apphance'
-apply plugin: 'ameba-android-analysis'
-//apply plugin: 'ameba-android-test'
-//apply plugin: 'ameba-android-jarlibrary'
-apply from: 'http://dev.polidea.pl/ext/Ameba/polidea_conventions.gradle'
+apply plugin: 'apphance-flow'
