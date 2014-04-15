@@ -9,8 +9,9 @@ Main changes were about performance improvements, layering adapters (including I
 
 Example of usage is here:
 
-https://github.com/Polidea/android-coverflow/blob/master/src/pl/polidea/coverflow/testingactivity/CoverFlowTestingActivity.java
+[CoverFlowTestingActivity.java](https://github.com/Polidea/android-coverflow/blob/master/src/pl/polidea/coverflow/testingactivity/CoverFlowTestingActivity.java)
+
 And here:
 
-https://github.com/Polidea/android-coverflow/blob/master/src/pl/polidea/coverflow/testingactivity/CoverFlowTestingActivity.java
+[main.xml](https://github.com/Polidea/android-coverflow/blob/master/res/layout/main.xml)
 
