@@ -44,3 +44,14 @@ syntax: regexp
 ^\.gradle/.*$
 syntax: regexp
 ^.*\.orig$
+
+build/
+.idea/
+.gradle/
+gradlew
+gradle/
+gradlew.bat
+.*.swp
+*.iml
+
+flow-log/
