@@ -51,3 +51,7 @@ build/
 gradlew
 gradle/
 gradlew.bat
+.*.swp
+*.iml
+
+flow-log/
