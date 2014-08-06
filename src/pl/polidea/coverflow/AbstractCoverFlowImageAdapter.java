@@ -100,7 +100,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      * android.view.ViewGroup)
      */
     @Override
-    public final synchronized ImageView getView(final int position, final View convertView, final ViewGroup parent) {
+    public synchronized ImageView getView(final int position, final View convertView, final ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
             final Context context = parent.getContext();
