@@ -61,6 +61,7 @@ public class CoverFlowTestingActivity extends Activity {
         linkedAdapter = new ResourceImageAdapter(this);
 //        linkedAdapter = new NetworkImageAdapter(this);
 
+        // ReflectingImageAdapter doesn't work with NetworkImageAdapter - you need to use Picasso there
         if (reflect) {
             coverImageAdapter = new ReflectingImageAdapter(linkedAdapter);
         } else {
