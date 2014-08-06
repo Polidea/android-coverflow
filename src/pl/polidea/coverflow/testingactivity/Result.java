@@ -1,10 +1,5 @@
 package pl.polidea.coverflow.testingactivity;
 
-import android.net.Uri;
-
-import java.net.URI;
-import java.net.URL;
-
 /**
  * Created by martawoldanska on 8/4/14.
  */

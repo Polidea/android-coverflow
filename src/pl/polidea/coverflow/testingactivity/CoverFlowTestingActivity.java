@@ -1,37 +1,19 @@
 package pl.polidea.coverflow.testingactivity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.LinkedList;
 
 import pl.polidea.coverflow.AbstractCoverFlowImageAdapter;
 import pl.polidea.coverflow.CoverFlow;
 import pl.polidea.coverflow.NetworkImageAdapter;
 import pl.polidea.coverflow.R;
 import pl.polidea.coverflow.ReflectingImageAdapter;
-import pl.polidea.coverflow.ResourceImageAdapter;
 
 /****
  * The Class CoverFlowTestingActivity.
