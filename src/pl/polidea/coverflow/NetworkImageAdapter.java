@@ -8,15 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -102,41 +100,23 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
         return builder.toString();
     }
 
-    private LinkedList<Result> parseJSONResult(String result)
+    private class Wrapper {
+        public LinkedList<Result> people = new LinkedList<Result>();
+    }
+
+    private LinkedList<Result> parseJSONResult(String json)
     {
-        LinkedList<Result> results = new LinkedList<Result>();
+        Gson gson = new Gson();
 
-        try
-        {
-            JSONObject outerItem = new JSONObject(result);
-            JSONArray jArray = outerItem.getJSONArray("people");
+        Wrapper wrapper = gson.fromJson(json, Wrapper.class);
 
-            for (int i = 0; i < jArray.length(); i++)
-            {
-                JSONObject employee = jArray.getJSONObject(i);
-                String id = employee.getString("id");
-
-                String url = employee.getString("gravatar");
-
-                Result employeeResult = new Result(url, id);
-                results.add(employeeResult);
-            }
-        }
-        catch (JSONException e)
-        {
-            Log.e("CoverFlowTestingActivity", "JSONException in parseJSONResult");
-            e.printStackTrace();
-        }
-
-        return results;
+        return wrapper.people;
     }
 
     @Override
     public synchronized ImageView getView(int position, View convertView, ViewGroup parent)
     {
         ImageView view = super.getView(position, convertView, parent);
-
-        Log.d(TAG, "getView: " + RESULTS.get(position));
 
         Picasso.with(context).load(RESULTS.get(position).getAvatarURL()).into(view);
 
