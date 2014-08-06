@@ -2,6 +2,7 @@ package pl.polidea.coverflow.testingactivity;
 
 import android.net.Uri;
 
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -10,51 +11,24 @@ import java.net.URL;
 public class Result
 {
 
-    private URL avatarURL;
+    private String avatarURL;
     private String userId;
-    private Uri avatarUri;
 
     public Result()
     {
         this.avatarURL = null;
         this.userId = "";
-        this.avatarUri = null;
     }
 
-    public Result(URL avatarURL, String userId, Uri avatarUri)
+    public Result(String avatarURL, String userId)
     {
         this.avatarURL = avatarURL;
         this.userId = userId;
-        this.avatarUri = avatarUri;
     }
 
-    public URL getAvatarURL()
+    public String getAvatarURL()
     {
         return this.avatarURL;
     }
 
-    public void setAvatarURL(URL avatarURL)
-    {
-        this.avatarURL = avatarURL;
-    }
-
-    public String getUserId()
-    {
-        return this.userId;
-    }
-
-    public void setUserId(String userId)
-    {
-        this.userId = userId;
-    }
-
-    public Uri getAvatarUri()
-    {
-        return avatarUri;
-    }
-
-    public void setAvatarUri(Uri avatarUri)
-    {
-        this.avatarUri = avatarUri;
-    }
 }

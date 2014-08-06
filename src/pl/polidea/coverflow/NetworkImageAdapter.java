@@ -4,8 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +48,7 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
 
     private final Context context;
 
-    private static final List<Uri> IMAGE_RESOURCE_URIS = new ArrayList<Uri>();
+    private static final LinkedList<Result> RESULTS = new LinkedList<Result>();
 
     public NetworkImageAdapter(final Context context)
     {
@@ -59,11 +66,11 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
 
     public final synchronized void setResources(List<Result> results)
     {
-        IMAGE_RESOURCE_URIS.clear();
+        RESULTS.clear();
 
         for (Result r : results)
         {
-            IMAGE_RESOURCE_URIS.add(r.getAvatarUri());
+            RESULTS.add(r);
         }
 
         notifyDataSetChanged();
@@ -77,7 +84,7 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
     @Override
     public synchronized int getCount()
     {
-        return IMAGE_RESOURCE_URIS.size();
+        return RESULTS.size();
     }
 
     /*
@@ -118,16 +125,11 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
                 JSONObject employee = jArray.getJSONObject(i);
                 String id = employee.getString("id");
 
-                URL url = new URL(employee.getString("gravatar"));
+                String url = employee.getString("gravatar");
 
-                Result employeeResult = new Result(url, id, null);
+                Result employeeResult = new Result(url, id);
                 results.add(employeeResult);
             }
-        }
-        catch (MalformedURLException e)
-        {
-            Log.e("CoverFlowTestingActivity", "MalformedUrlException in parseJSONResult");
-            e.printStackTrace();
         }
         catch (JSONException e)
         {
@@ -136,5 +138,17 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
         }
 
         return results;
+    }
+
+    @Override
+    public synchronized ImageView getView(int position, View convertView, ViewGroup parent)
+    {
+        ImageView view = super.getView(position, convertView, parent);
+
+        Log.d(TAG, "getView: " + RESULTS.get(position));
+
+        Picasso.with(context).load(RESULTS.get(position).getAvatarURL()).into(view);
+
+        return view;
     }
 }
