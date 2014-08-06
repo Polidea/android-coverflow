@@ -1,15 +1,20 @@
 package pl.polidea.coverflow;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
+
+import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
+import pl.polidea.coverflow.testingactivity.Result;
 
 /**
  * This class is an adapter that provides images from a fixed set of resource
@@ -17,10 +22,10 @@ import android.util.Log;
  * cleared by garbage collection when not needed.
  * 
  */
-public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
+public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
 
     /** The Constant TAG. */
-    private static final String TAG = ResourceImageAdapter.class.getSimpleName();
+    private static final String TAG = NetworkImageAdapter.class.getSimpleName();
 
     /** The Constant DEFAULT_LIST_SIZE. */
     private static final int DEFAULT_LIST_SIZE = 20;
@@ -37,16 +42,40 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
 
     private final Context context;
 
+
+    private LinkedList<Result> results;
+    private static final List<Uri> IMAGE_RESOURCE_URIS = new ArrayList<Uri>();
+
     /**
      * Creates the adapter with default set of resource images.
-     * 
+     *
      * @param context
      *            context
      */
-    public ResourceImageAdapter(final Context context) {
+    public NetworkImageAdapter(final Context context) {
         super();
         this.context = context;
         setResources(DEFAULT_RESOURCE_LIST);
+    }
+
+    public NetworkImageAdapter(final Context context, LinkedList<Result> results)
+    {
+        super();
+        this.context = context;
+        this.results = results;
+        setResources();
+    }
+
+    private final synchronized void setResources()
+    {
+        IMAGE_RESOURCE_URIS.clear();
+
+        for (Result r : results)
+        {
+            IMAGE_RESOURCE_URIS.add(r.getAvatarUri());
+        }
+
+        notifyDataSetChanged();
     }
 
     /**
@@ -69,8 +98,11 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
      * @see android.widget.Adapter#getCount()
      */
     @Override
-    public synchronized int getCount() {
-        return IMAGE_RESOURCE_IDS.size();
+    public synchronized int getCount()
+    {
+        // return this size if you use standard images
+        //return IMAGE_RESOURCE_IDS.size();
+        return IMAGE_RESOURCE_URIS.size();
     }
 
     /*
@@ -81,8 +113,22 @@ public class ResourceImageAdapter extends AbstractCoverFlowImageAdapter {
     @Override
     protected Bitmap createBitmap(final int position) {
         Log.v(TAG, "creating item " + position);
-        final Bitmap bitmap = ((BitmapDrawable) context.getResources().getDrawable(IMAGE_RESOURCE_IDS.get(position)))
-                .getBitmap();
+
+        // use this code to use standard images
+//        final Bitmap bitmap = ((BitmapDrawable) context.getResources().getDrawable(IMAGE_RESOURCE_IDS.get(position)))
+//                .getBitmap();
+
+        final Bitmap bitmap;
+        try
+        {
+            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(results.get(position).getAvatarUri()));
+        }
+        catch (FileNotFoundException e)
+        {
+            Log.e("ResourceImageAdapter", "FileNotFoundException at createBitmap");
+            return null;
+        }
+
         bitmapMap.put(position, new WeakReference<Bitmap>(bitmap));
         return bitmap;
     }

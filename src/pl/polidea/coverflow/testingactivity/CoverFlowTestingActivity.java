@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.LinkedList;
 
 import pl.polidea.coverflow.CoverFlow;
+import pl.polidea.coverflow.NetworkImageAdapter;
 import pl.polidea.coverflow.R;
 import pl.polidea.coverflow.ReflectingImageAdapter;
 import pl.polidea.coverflow.ResourceImageAdapter;
@@ -112,12 +113,13 @@ public class CoverFlowTestingActivity extends Activity {
         setupListeners(mCoverFlow);
     }
 
+    // this setup is used for Polidea avatars
     public void setupCoverFlow(final CoverFlow mCoverFlow, final boolean reflect, LinkedList<Result> results) {
         BaseAdapter coverImageAdapter;
         if (reflect) {
-            coverImageAdapter = new ReflectingImageAdapter(new ResourceImageAdapter(this, results));
+            coverImageAdapter = new ReflectingImageAdapter(new NetworkImageAdapter(this, results));
         } else {
-            coverImageAdapter = new ResourceImageAdapter(this, results);
+            coverImageAdapter = new NetworkImageAdapter(this, results);
         }
 
         mCoverFlow.setAdapter(coverImageAdapter);
