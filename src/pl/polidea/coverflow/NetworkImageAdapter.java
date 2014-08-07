@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import pl.polidea.coverflow.testingactivity.Country;
 import pl.polidea.coverflow.testingactivity.Result;
 
 /**
@@ -98,6 +99,17 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
         }
 
         return builder.toString();
+    }
+
+    public void setCountries(List<Country> countries)
+    {
+        RESULTS.clear();
+
+        for (Country country: countries) {
+            RESULTS.add(country.toResult());
+        }
+
+        notifyDataSetChanged();
     }
 
     private class Wrapper {
