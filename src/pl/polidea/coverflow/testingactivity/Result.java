@@ -2,9 +2,6 @@ package pl.polidea.coverflow.testingactivity;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by martawoldanska on 8/4/14.
- */
 public class Result
 {
     @SerializedName("gravatar")

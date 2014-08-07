@@ -4,9 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by martawoldanska on 8/5/14.
- */
 public class NetworkUtilities
 {
     public static boolean isOnline(Context context)
