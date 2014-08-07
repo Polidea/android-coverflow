@@ -11,8 +11,10 @@ import android.widget.ImageView;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,12 +92,12 @@ public class NetworkImageAdapter extends AbstractCoverFlowImageAdapter {
     private String readStringFromInputStream(InputStream inputStream) throws IOException
     {
         StringBuilder builder = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
 
-        int c;
-
-        while((c = inputStream.read()) != -1)
+        while((line = bufferedReader.readLine()) != null)
         {
-            builder.append((char)c);
+            builder.append(line);
         }
 
         return builder.toString();
