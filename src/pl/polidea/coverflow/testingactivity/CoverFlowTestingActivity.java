@@ -17,6 +17,7 @@ import pl.polidea.coverflow.CoverFlow;
 import pl.polidea.coverflow.NetworkImageAdapter;
 import pl.polidea.coverflow.R;
 import pl.polidea.coverflow.ReflectingImageAdapter;
+import pl.polidea.coverflow.ResourceImageAdapter;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -50,10 +51,7 @@ public class CoverFlowTestingActivity extends Activity {
         // this library as library.
         coverFlow = (CoverFlow) findViewById(this.getResources().getIdentifier("coverflow", "id",
                 "pl.polidea.coverflow"));
-        setupCoverFlow(coverFlow, false);
-        final CoverFlow reflectingCoverFlow = (CoverFlow) findViewById(this.getResources().getIdentifier(
-                "coverflowReflect", "id", "pl.polidea.coverflow"));
-        setupCoverFlow(reflectingCoverFlow, true);
+        setupCoverFlow(coverFlow, true);
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener()
@@ -99,22 +97,20 @@ public class CoverFlowTestingActivity extends Activity {
      * 
      * @param mCoverFlow
      *            the m cover flow
-     * @param reflect
-     *            the reflect
+     * @param showFaces
+     *            adapter uses people's faces instead of Chuck Norris
      */
-    private void setupCoverFlow(final CoverFlow mCoverFlow, final boolean reflect) {
+    private void setupCoverFlow(final CoverFlow mCoverFlow, final boolean showFaces) {
         BaseAdapter coverImageAdapter;
 
         // select here which adapter to use
-//        linkedAdapter = new ResourceImageAdapter(this);
-        linkedAdapter = new NetworkImageAdapter(this);
 
-        // ReflectingImageAdapter doesn't work with NetworkImageAdapter - you need to use Picasso there
-        if (reflect) {
-            coverImageAdapter = new ReflectingImageAdapter(linkedAdapter);
-        } else {
-            coverImageAdapter = linkedAdapter;
-        }
+        if (showFaces)
+            linkedAdapter = new NetworkImageAdapter(this);
+        else
+            linkedAdapter = new ResourceImageAdapter(this);
+
+        coverImageAdapter = linkedAdapter;
         mCoverFlow.setAdapter(coverImageAdapter);
         mCoverFlow.setSelection(2, true);
         setupListeners(mCoverFlow);
