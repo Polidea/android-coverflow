@@ -14,5 +14,11 @@
 	<TextView android:text="STATUS" android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:padding="5dip" android:id="@+id/statusText"></TextView>
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FETCH FLAGS!" />
+
 </LinearLayout>
 
