@@ -1,3 +1,9 @@
+---
+
+__This repository is no longer maintained. Issue reports and pull requests will not be attended.__
+
+---
+
 Simple implementation of android's cover flow widget. It is largely based on excellent  code from Neil
 http://www.inter-fuser.com/2010/02/android-coverflow-widget-v2.html
 
