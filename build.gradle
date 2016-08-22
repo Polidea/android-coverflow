@@ -25,9 +25,18 @@ repositories {
     }
 }
 
+dependencies {
+    compile 'com.squareup.picasso:picasso:2.3.3'
+}
+
 android {
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        minSdkVersion 5
+        targetSdkVersion 18
+    }
 
     sourceSets {
         main {

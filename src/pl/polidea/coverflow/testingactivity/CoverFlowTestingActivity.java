@@ -1,9 +1,5 @@
 package pl.polidea.coverflow.testingactivity;
 
-import pl.polidea.coverflow.CoverFlow;
-import pl.polidea.coverflow.R;
-import pl.polidea.coverflow.ReflectingImageAdapter;
-import pl.polidea.coverflow.ResourceImageAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,13 +9,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import pl.polidea.coverflow.AbstractCoverFlowImageAdapter;
+import pl.polidea.coverflow.CoverFlow;
+import pl.polidea.coverflow.NetworkImageAdapter;
+import pl.polidea.coverflow.R;
+import pl.polidea.coverflow.ReflectingImageAdapter;
+
 /****
  * The Class CoverFlowTestingActivity.
  */
 public class CoverFlowTestingActivity extends Activity {
 
     private TextView textView;
-
     /*
      * (non-Javadoc)
      * 
@@ -32,6 +33,7 @@ public class CoverFlowTestingActivity extends Activity {
         setContentView(R.layout.main);
         textView = (TextView) findViewById(this.getResources()
                 .getIdentifier("statusText", "id", "pl.polidea.coverflow"));
+
         // note resources below are taken using getIdentifier to allow importing
         // this library as library.
         final CoverFlow coverFlow1 = (CoverFlow) findViewById(this.getResources().getIdentifier("coverflow", "id",
@@ -52,10 +54,18 @@ public class CoverFlowTestingActivity extends Activity {
      */
     private void setupCoverFlow(final CoverFlow mCoverFlow, final boolean reflect) {
         BaseAdapter coverImageAdapter;
+
+        AbstractCoverFlowImageAdapter linkedAdapter;
+
+        // select here which adapter to use
+        linkedAdapter = new ResourceImageAdapter(this);
+//        linkedAdapter = new NetworkImageAdapter(this);
+
+        // ReflectingImageAdapter doesn't work with NetworkImageAdapter - you need to use Picasso there
         if (reflect) {
-            coverImageAdapter = new ReflectingImageAdapter(new ResourceImageAdapter(this));
+            coverImageAdapter = new ReflectingImageAdapter(linkedAdapter);
         } else {
-            coverImageAdapter = new ResourceImageAdapter(this);
+            coverImageAdapter = linkedAdapter;
         }
         mCoverFlow.setAdapter(coverImageAdapter);
         mCoverFlow.setSelection(2, true);
@@ -88,5 +98,4 @@ public class CoverFlowTestingActivity extends Activity {
             }
         });
     }
-
 }
