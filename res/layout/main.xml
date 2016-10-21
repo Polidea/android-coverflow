@@ -6,13 +6,14 @@
 		android:layout_height="wrap_content" android:layout_marginTop="5dip">
 	</view>
 
-	<pl.polidea.coverflow.CoverFlow xmlns:coverflow="http://schemas.android.com/apk/res/pl.polidea.coverflow"
-		coverflow:imageWidth="100dip" coverflow:imageHeight="150dip" coverflow:withReflection="true"
-		coverflow:imageReflectionRatio="0.2" coverflow:reflectionGap="2dip" android:id="@+id/coverflowReflect"
-		android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5dip" />
-
 	<TextView android:text="STATUS" android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:padding="5dip" android:id="@+id/statusText"></TextView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FETCH FLAGS!" />
 
 </LinearLayout>
 

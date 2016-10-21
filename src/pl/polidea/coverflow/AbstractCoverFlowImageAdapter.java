@@ -1,9 +1,5 @@
 package pl.polidea.coverflow;
 
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is an adapter that provides base, abstract class for images
@@ -100,7 +100,7 @@ public abstract class AbstractCoverFlowImageAdapter extends BaseAdapter {
      * android.view.ViewGroup)
      */
     @Override
-    public final synchronized ImageView getView(final int position, final View convertView, final ViewGroup parent) {
+    public synchronized ImageView getView(final int position, final View convertView, final ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
             final Context context = parent.getContext();
